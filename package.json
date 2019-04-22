@@ -1,12 +1,9 @@
 {
-  "name": "gatsby-starter-blog",
+  "name": "blog",
   "private": true,
-  "description": "A starter for a blog powered by Gatsby and Markdown",
+  "description": "A blog powered by Gatsby and Markdown",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
-  },
+  "author": "Tripp Hammond <tripphamm@gmail.com>",
   "dependencies": {
     "gatsby": "^2.3.25",
     "gatsby-image": "^2.0.39",
@@ -47,15 +44,17 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "prettier": "^1.17.0"
   },
-  "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
+  "homepage": "https://tripphamm.dev",
   "keywords": [
-    "gatsby"
+    "gatsby",
+    "tripphamm",
+    "react"
   ],
   "license": "MIT",
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
+    "url": "git+https://github.com/tripphamm/blog.git"
   },
   "scripts": {
     "build": "gatsby build",
