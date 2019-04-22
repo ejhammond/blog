@@ -80,13 +80,7 @@ class Layout extends React.Component {
       )
     }
     return (
-      <div
-        style={{
-          marginLeft: `auto`,
-          marginRight: `auto`,
-          maxWidth: rhythm(24),
-        }}
-      >
+      <>
         <header
           style={{
             padding: rhythm(3 / 4),
@@ -97,26 +91,34 @@ class Layout extends React.Component {
         >
           {header}
         </header>
-        <main
-          style={{ paddingLeft: rhythm(3 / 4), paddingRight: rhythm(3 / 4) }}
-        >
-          {children}
-        </main>
-        <footer
+        <div
           style={{
-            paddingTop: rhythm(1),
-            paddingBottom: rhythm(1),
-            paddingLeft: rhythm(3 / 4),
-            paddingRight: rhythm(3 / 4),
-
-            marginTop: rhythm(1),
+            marginLeft: `auto`,
+            marginRight: `auto`,
+            maxWidth: rhythm(32),
           }}
         >
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
+          <main
+            style={{ paddingLeft: rhythm(3 / 4), paddingRight: rhythm(3 / 4) }}
+          >
+            {children}
+          </main>
+          <footer
+            style={{
+              paddingTop: rhythm(1),
+              paddingBottom: rhythm(1),
+              paddingLeft: rhythm(3 / 4),
+              paddingRight: rhythm(3 / 4),
+
+              marginTop: rhythm(1),
+            }}
+          >
+            © {new Date().getFullYear()}, Built with
+            {` `}
+            <a href="https://www.gatsbyjs.org">Gatsby</a>
+          </footer>
+        </div>
+      </>
     )
   }
 }

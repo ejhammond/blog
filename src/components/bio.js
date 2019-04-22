@@ -60,12 +60,10 @@ function Bio() {
             />
             <div>
               <p style={{ marginTop: 0, marginBottom: 5 }}>
-                <strong>{author}</strong> is a Boston-based web dev who writes
-                code at{' '}
+                <strong>{author}</strong> (
+                <a href={`https://twitter.com/${social.twitter}`}>@tripphamm</a>
+                ) is a Boston-based web dev who writes code at{' '}
                 <a href={`https://twitter.com/vistaprint`}>@vistaprint</a>.
-              </p>
-              <p style={{ marginTop: 0, marginBottom: 5 }}>
-                <a href={`https://twitter.com/${social.twitter}`}>@tripphamm</a>{' '}
               </p>
             </div>
           </div>
