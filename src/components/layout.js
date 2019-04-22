@@ -1,8 +1,9 @@
-import React from "react"
-import { Link } from "gatsby"
+import React from 'react'
+import { Link } from 'gatsby'
 
-import { rhythm, scale } from "../utils/typography"
-import { primary, textKnockout } from "../utils/theme-colors"
+import { rhythm, scale } from '../utils/typography'
+import { primary, textKnockout } from '../utils/theme-colors'
+import logo from '../../content/assets/tripphamm-logo-alt.png'
 
 class Layout extends React.Component {
   render() {
@@ -16,7 +17,7 @@ class Layout extends React.Component {
           style={{
             ...scale(1.25),
             margin: 0,
-            color: "inherit",
+            color: 'inherit',
           }}
         >
           <Link
@@ -24,9 +25,22 @@ class Layout extends React.Component {
               boxShadow: `none`,
               textDecoration: `none`,
               color: `inherit`,
+
+              display: 'flex',
+              alignItems: 'center',
             }}
             to={`/`}
           >
+            <img
+              src={logo}
+              alt="Site logo"
+              style={{
+                height: 50,
+                width: 50,
+                marginRight: 10,
+                marginBottom: 0,
+              }}
+            />
             {title}
           </Link>
         </h1>
@@ -35,9 +49,8 @@ class Layout extends React.Component {
       header = (
         <h3
           style={{
-            fontFamily: `Montserrat, sans-serif`,
             margin: 0,
-            color: "inherit",
+            color: 'inherit',
           }}
         >
           <Link
@@ -45,9 +58,22 @@ class Layout extends React.Component {
               boxShadow: `none`,
               textDecoration: `none`,
               color: `inherit`,
+
+              display: 'flex',
+              alignItems: 'center',
             }}
             to={`/`}
           >
+            <img
+              src={logo}
+              alt="Site logo"
+              style={{
+                height: 32,
+                width: 32,
+                marginRight: 10,
+                marginBottom: 0,
+              }}
+            />
             {title}
           </Link>
         </h3>
