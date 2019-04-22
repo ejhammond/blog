@@ -1,11 +1,11 @@
-import Typography from "typography"
-import FairyGatesTheme from "typography-theme-fairy-gates"
+import Typography from 'typography'
+import FairyGatesTheme from 'typography-theme-fairy-gates'
 
 FairyGatesTheme.overrideThemeStyles = () => {
   return {
     a: {
-      textShadow: "none",
-      backgroundImage: "unset",
+      textShadow: 'none',
+      backgroundImage: 'unset',
     },
   }
 }

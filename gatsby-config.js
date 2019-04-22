@@ -1,9 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `TrippBlog`,
+    title: `Tripp's Tips`,
     author: `Tripp Hammond`,
-    description: `Wow`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    description: `Dev stuff`,
+    siteUrl: `https://tripphamm.dev/`,
     social: {
       twitter: `tripphamm`,
     },
@@ -57,13 +57,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `Tripp's Tips`,
+        short_name: `Tripp's Tips`,
         start_url: `/`,
-        background_color: `#ffffff`,
-        theme_color: `#663399`,
+        background_color: `#ececec`,
+        theme_color: `#385170`,
         display: `minimal-ui`,
-        icon: `content/assets/gatsby-icon.png`,
+        icon: `content/assets/tripphamm-logo-alt.png`,
       },
     },
     `gatsby-plugin-offline`,
