@@ -5,8 +5,12 @@
   "version": "0.1.0",
   "author": "Tripp Hammond <tripphamm@gmail.com>",
   "dependencies": {
+    "@mdx-js/mdx": "^1.0.16",
+    "@mdx-js/react": "^1.0.16",
+    "@mdx-js/tag": "^0.20.3",
     "gatsby": "^2.3.25",
     "gatsby-image": "^2.0.39",
+    "gatsby-mdx": "^0.6.3",
     "gatsby-plugin-feed": "^2.1.1",
     "gatsby-plugin-google-analytics": "^2.0.18",
     "gatsby-plugin-manifest": "^2.0.29",
@@ -20,7 +24,6 @@
     "gatsby-remark-responsive-iframe": "^2.1.1",
     "gatsby-remark-smartypants": "^2.0.9",
     "gatsby-source-filesystem": "^2.0.29",
-    "gatsby-transformer-remark": "^2.3.8",
     "gatsby-transformer-sharp": "^2.1.18",
     "prismjs": "^1.16.0",
     "react": "^16.8.6",
@@ -34,6 +37,7 @@
     "typography-theme-wordpress-2016": "^0.16.19"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.1.0",
@@ -42,7 +46,8 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
-    "prettier": "^1.17.0"
+    "prettier": "^1.17.0",
+    "rimraf": "^2.6.3"
   },
   "homepage": "https://tripphamm.dev",
   "keywords": [
@@ -59,6 +64,7 @@
   "scripts": {
     "build": "gatsby build",
     "now-build": "yarn build",
+    "clean": "rimraf .cache public",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "yarn develop",

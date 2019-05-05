@@ -24,8 +24,9 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: `gatsby-mdx`,
       options: {
+        extensions: ['.md', '.mdx'],
         plugins: [
           {
             resolve: `gatsby-remark-images`,
@@ -46,8 +47,8 @@ module.exports = {
               noInlineHighlight: true,
             },
           },
-          `gatsby-remark-copy-linked-files`,
-          `gatsby-remark-smartypants`,
+          { resolve: `gatsby-remark-copy-linked-files` },
+          { resolve: `gatsby-remark-smartypants` },
         ],
       },
     },
