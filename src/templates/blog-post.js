@@ -53,7 +53,9 @@ class BlogPostTemplate extends React.Component {
         >
           {post.frontmatter.date}
         </p>
-        <MDXRenderer>{post.code.body}</MDXRenderer>
+        <MDXRenderer frontmatter={post.frontmatter}>
+          {post.code.body}
+        </MDXRenderer>
         <hr
           style={{
             marginBottom: rhythm(1),
