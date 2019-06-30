@@ -1,0 +1,308 @@
+---
+title: 'My Mental Model: Redux'
+date: '2019-06-29T02:18:19.900Z'
+description: My mental model of Redux
+---
+
+import { Image } from '../../../src/components/Image'
+import { Counter } from './Counter'
+
+<div
+  style={{
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  }}
+>
+  <Image
+    src="./redux-logo.svg"
+    alt="Redux logo"
+    style={{ maxWidth: '300px' }}
+  />
+</div>
+
+## My Mental Model Series
+
+_This article is part of the My Mental Model series which seeks to capture my understanding of the programming concepts that I use on a regular basis in a comprehensive way. The goal is for readers to have all of the info that they need in order to reach and to surpass my own understanding of each concept._
+
+## Introduction
+
+[Redux](https://github.com/reduxjs/redux) is popular JavaScript state-management library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to reason about. In this installment of "My Mental Model" I'll introduce the core concepts of Redux and then we'll build a minimal app with plain html/css/js to illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
+
+## Redux
+
+Redux is a _state management_ library which means that it helps you organize the _state_ of your application; it is unopionated about how you decide to handle the UI of your app which means that it is suitable for use with _any_ UI framework (or with no framework at all!)
+
+Redux's super power is that it makes sure that every state-change in your application is predictable and traceable.
+
+> If your app's state is starting to get unwieldy and you're having trouble figuring out \*how\* your app got into a given state, Redux may be able to help!
+
+It is comprised of 4 basic components:
+
+1. A **store** where your application's state is kept
+2. **Actions** which are simple JavaScript objects that represent state-changing events in your app. Actions say to the store, "hey, _something happened_! You might need to update the current state of the app"
+3. A **dispatcher** which is used to submit actions to the store
+4. And a **reducer** which is a function used by the store to determine _how_ your application's state should change in response to a given action
+
+The terminology may be unfamiliar, but conceptually it's really pretty simple! We have a single place to keep our state (the store), we have a way to indicate to the store that _something happened_ (actions), and we have a way to interpret those actions in order to decide if/how the state should change (the reducer).
+
+If you've used Redux with React before, you may be surprised that we haven't mentioned anything about `connect`, `<Provider>`, `mapStateToProps` etc. That's because these are concepts from the `react-redux` library which provides helpers to integrate Redux with a React app. Redux works perfectly well without these helpers--in fact--we're about to build a simple application with Redux and we're not going to use React at all!
+
+## A Minimal Redux App
+
+We're going to build a "counter" application. It'll have 2 buttons (plus and minus) and, between the buttons, it will display the current value of the counter. As you've undoubtedly guessed, the value of the counter will change when the user clicks on the plus and minus buttons. It'll look something like this:
+
+<Counter />
+
+### Disclaimer
+
+> Remember: if you're having trouble figuring out \*how\* your app got into a certain state, Redux can help by making sure that state-changes are predictable and traceable
+
+The _state_ that this app tracks is just a single number (the current count), and there are only two ways that the state can change (the plus button and the minus button). **We don't need Redux** in this app! We're going to use it anyway for illustrative purposes, but remember that adding a dependency or framework to your application almost always comes with a cost. In the case of Redux, we introduce some abstractions (e.g. actions, a store, a reducer) which are helpful in complex applications, but add unnecessary cognitive load in simpler projects like this one.
+
+With that said, let's get started!
+
+### The HTML
+
+```html
+<html>
+  <head>
+    <title>Redux Counter</title>
+  </head>
+  <body>
+    <button id="subtractButton">-</button>
+    <div id="counterDisplay">0</div>
+    <button id="addButton">+</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.js"></script>
+    <script>
+      // here is where we'll use Redux to manage our state
+    </script>
+  </body>
+</html>
+```
+
+There it is. It's beautiful. It's 2 buttons and a div. We've included Redux via a script tag, but we haven't done anything with it yet. Let's change that! We'll start by defining the different **actions** that our app will need to dispatch.
+
+### Actions
+
+An action can be whatever we want. The important thing to know is that whatever we choose as our action will be sent to a function (our reducer) which will need to be able to determine how the app's state should change in response to the action.
+
+Since we have full control over the reducer function (we'll write ours in the next step), we're free to define our actions however we want.
+
+> As long as you can accurately determine the next state of the app based on the current state and the action that you send, the action is perfectly valid.
+
+Conventionally, we make each action an object with a `type` property along with any additional data necessary for the reducer to do it's job. In this case, no additional information is necessary other than the `type`, so we'll do something like this:
+
+```html
+<script>
+  const ADD_ACTION = { type: 'ADD' }
+  const SUBTRACT_ACTION = { type: 'SUBTRACT' }
+</script>
+```
+
+But if we tossed the `type` convention aside, we totally could have just done this:
+
+```html
+<script>
+  const ADD_ACTION = 'ADD'
+  const SUBTRACT_ACTION = 'SUBTRACT'
+</script>
+```
+
+Here, our actions are just strings rather than objects. These strings contain enough info for us to know whether to increment or decrement the count, so they're perfectly valid as actions! The point is: there's no magic going on here; an action is whatever you want it to be, but we usually use objects with a property called `type`.
+
+Next, let's build the reducer function!
+
+### Reducer
+
+In the Redux world, the reducer function has a very important job: take the current state of the app plus an action and return the next state of the app. So, we first need to decide what our app's state is going to look like!
+
+Let's start with an object with a prop called `counter` which will hold the current count that should be displayed on the screen.
+
+```js
+const initialState = { counter: 0 }
+```
+
+Next, the reducer function itself.
+
+Our reducer needs to be able to handle two different actions: `ADD_ACTION` and `SUBTRACT_ACTION`. When `ADD_ACTION` is received, we'll increment the value of `counter` by 1, and when `SUBTRACT_ACTION` is received we'll decrement the value of `counter` by 1.
+
+```html
+<script>
+  // actions omitted for brevity
+
+  const initialState = { counter: 0 }
+
+  function reduce(currentState = initialState, action) {
+    switch (action.type) {
+      case 'ADD':
+        return {
+          ...currentState,
+          counter: currentState.counter + 1,
+        }
+      case 'SUBTRACT':
+        return {
+          ...currentState,
+          counter: currentState.counter - 1,
+        }
+      default:
+        /*
+        if the action was not ADD or SUBTRACT,
+        we return the currentState unchanged
+        */
+        return currentState
+    }
+  }
+</script>
+```
+
+Again, we're following some conventions here, but it's worth pointing out that _we don't need to_. The reducer is simply a function. There's no magic (tm). We've chosen to keep our state in an object (e.g. `initialState = { counter: 0 }`) but since we only have one thing to track, we could have just done `initialState = 0`. We also used a switch statement to organize our logic, but we didn't need to do that either. Here's an example of a reducer which ignores those conventions, but would work just as well for our app:
+
+```html
+<script>
+  // actions omitted for brevity
+
+  const initialState = 0
+
+  function reduce(currentState = initialState, action) {
+    if (action.type === 'ADD') {
+      return currentState + 1
+    } else if (action.type === 'SUBTRACT') {
+      return currentState - 1
+    } else {
+      return currentState
+    }
+  }
+</script>
+```
+
+We typically wrap our state in an object to make it more scalable (what if we wanted to add another value to our state?) and we typically use a switch statement for scalability as well (what if we add a bunch more actions?), but the implementation is entirely up to you!
+
+#### A note on equality
+
+In order for Redux to determine whether or not your state has actually changed after an action has been dispatched, the store does something like this:
+
+```js
+// Redux store pseudocode
+
+function onActionReceived(action) {
+  const nextState = reducer(currentState, action)
+
+  if (nextState !== currentState) {
+    currentState = nextState
+    broadcast('State changed!')
+  }
+}
+```
+
+The store will only broadcast that the state changed if `nextState !== currentState`.
+
+This is not the exact implementation of the comparison, but it's good enough for our mental model. Keep in mind that `nextState` and `currentState` might be huge, complex objects which represent the entire state of a highly-interactive app. Redux doesn't have the time to traverse the entire `currentState` and `nextState` objects in order to determine if _every single key_ and _every single value_ is exactly the same between both of them. Instead, it uses a _referential comparison_ (e.g. `nextState !== currentState`) to see if the two values _refer_ to the same spot in memory.
+
+This type of comparison is **super fast**, but there is a big "gotcha" that we need to keep in mind. Have a look at this example of a broken reducer:
+
+```js
+// this reducer is broken!
+
+function reduce(currentState, action) {
+  if (action.type === 'ADD') {
+    currentState.counter += 1
+  } else if (action.type === 'SUBTRACT') {
+    currentState.counter -= 1
+  }
+
+  return currentState
+}
+```
+
+Even though we updated `counter`, the object that we returned from the reducer _is the same object that was passed **in** to the reducer_ (`currentState`). So, when the store does `nextState !== currentState`, it'll say "nope, they're both the same object; no state change detected!"
+
+This is a **huge** deal! If we aren't careful with how we build our reducer, Redux will fail to detect state changes.
+
+> It's why we always return a new top-level object from our reducer when the state changes
+
+Let's have a look back at our first reducer and focus on the _return values_.
+
+```js
+switch (action.type) {
+  case 'ADD':
+    // returns a new object
+    return {
+      ...currentState, // clone the currentState's children
+      counter: currentState.counter + 1, // overwrite counter
+    }
+  case 'SUBTRACT':
+    // returns a new object
+    return {
+      ...currentState, // clone the currentState's children
+      counter: currentState.counter - 1, // overwrite counter
+    }
+  default:
+    return currentState // return the currentState as-is, there's no change
+}
+```
+
+This reducer always returns new state-objects when the state has changed, and returns the old state-object when the state hasn't changed. It uses the spread operator (`...`) to create a shallow clone of the old state-object and overwrites the part of state that needs to be updated. The spread operator's shallow-clone functionality is sufficient for what we need to do. It's okay that we didn't recursively clone every nested object within our state because **as long as the top-level object returned from the reducer is a new object, Redux will know that something changed.**
+
+### Store
+
+Now that we have our reducer, we'll construct our store. We'll use Redux's `createStore` method and we'll pass it the `reduce` function that we created in the last step. Note that this is the first time we've actually used the Redux library at all; everything else that we've done has just been plain old objects and functions!
+
+```html
+<script>
+  // ... actions and reducer omitted for brevity
+
+  const store = Redux.createStore(reduce)
+</script>
+```
+
+Awesome! At this point we've got a fancy new Redux store complete with a reducer that can handle `ADD_ACTION`s and `SUBTRACT_ACTION`s. The next step is to be able to dispatch those actions to the store whenever the user clicks one of our buttons.
+
+### Dispatch
+
+```html
+<script>
+  // ... actions and reducer omitted for brevity
+
+  const store = Redux.createStore(reduce)
+
+  document.getElementById('addButton').onclick = () => {
+    store.dispatch(ADD_ACTION)
+  }
+
+  document.getElementById('subtractButton').onclick = () => {
+    store.dispatch(SUBTRACT_ACTION)
+  }
+</script>
+```
+
+We're using the `dispatch` method that's exposed by the store in order to indicate that an action has occurred. Behind the scenes, the store will invoke our reducer function and determine the next state of the application, then it will broadcast a message out to any subscribers to let them know that the state has changed. All that's left to do is to subscribe to those messages so that we can update our on-screen count whenever the store is updated!
+
+### Subscribing to changes
+
+```html
+<script>
+  // ... actions, reducer, store-creation, and action-dispatching omitted for brevity
+
+  store.subscribe(() => {
+    console.log('state changed', stateSnapshot)
+
+    const stateSnapshot = store.getState()
+
+    document.getElementById('counterDisplay').innerText = stateSnapshot.counter
+  })
+</script>
+```
+
+And we're done! [Here's a link to the full code](https://gist.github.com/tripphamm/f340d92dec153f4ca5f2a31a58be9ce4).
+
+## Wrap Up
+
+We've just written a minimal, but fully-functional Redux application. We've seen how "actions" are just simple objects, the reducer is just a plain function, and that the Redux-specific code really just boils down to:
+
+1. `createStore` - to create the store
+2. `store.dispatch` - to dispatch an action
+3. `store.subscribe` - to listen for updates to the state
+
+Now that we've covered the core functionality of Redux, we can look at [how it integrates with a framework like React](/react-redux).
