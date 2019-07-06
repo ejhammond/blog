@@ -27,11 +27,11 @@ _This article is part of the My Mental Model series which seeks to capture my un
 
 ## Introduction
 
-[Redux](https://github.com/reduxjs/redux) is popular JavaScript state-management library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to reason about. In this installment of "My Mental Model" I'll introduce the core concepts of Redux and then we'll build a minimal app with plain html/css/js to illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
+[Redux](https://github.com/reduxjs/redux) is popular JavaScript library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to maintain. In this installment of "My Mental Model" I'll introduce the core concepts of Redux and then we'll build a minimal app with plain html/css/js into illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
 
 ## Redux
 
-Redux is a _state management_ library which means that it helps you organize the _state_ of your application; it is unopionated about how you decide to handle the UI of your app which means that it is suitable for use with _any_ UI framework (or with no framework at all!)
+Redux is a "state management" library which means that it deals specifically with the your application's state. Redux is unopionated about your UI, and it can be used alongside _any_ UI framework (typically with a helper-library like `react-redux`).
 
 Redux's super power is that it makes sure that every state-change in your application is predictable and traceable.
 
@@ -40,8 +40,8 @@ Redux's super power is that it makes sure that every state-change in your applic
 It is comprised of 4 basic components:
 
 1. A **store** where your application's state is kept
-2. **Actions** which are simple JavaScript objects that represent state-changing events in your app. Actions say to the store, "hey, _something happened_! You might need to update the current state of the app"
-3. A **dispatcher** which is used to submit actions to the store
+2. **Actions** which are simple JavaScript objects that represent state-changing events in your app. Actions say to the store, "hey, _something happened_ and you might need to update the current state!"
+3. A **dispatcher** which is used to submit those actions to the store
 4. And a **reducer** which is a function used by the store to determine _how_ your application's state should change in response to a given action
 
 The terminology may be unfamiliar, but conceptually it's really pretty simple! We have a single place to keep our state (the store), we have a way to indicate to the store that _something happened_ (actions), and we have a way to interpret those actions in order to decide if/how the state should change (the reducer).
