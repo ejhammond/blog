@@ -277,19 +277,39 @@ Awesome! At this point we've got a fancy new Redux store complete with a reducer
 </script>
 ```
 
-We're using the `dispatch` method that's exposed by the store in order to indicate that an action has occurred. Behind the scenes, the store will invoke our reducer function and determine the next state of the application, then it will broadcast a message out to any subscribers to let them know that the state has changed. All that's left to do is to subscribe to those messages so that we can update our on-screen count whenever the store is updated!
+We're using the `dispatch` method that's exposed by the store in order to indicate that an action has occurred. Behind the scenes, the store will invoke our reducer function and determine the next state of the application, then it will broadcast a message out to any subscribers to let them know that the state has changed.
+
+Let's take a moment to recap what we've done so far.
+- We defined 2 _actions_, `ADD_ACTION` and `SUBTRACT_ACTION`, which are just simple objects
+- We defined the shape of the _state_ of our app: it looked like this `{ counter: number }`
+- We defined our _reducer_, which is a function that handles the operation: `currentState + action = nextState`
+- We used `Redux` to create a `store` and told that store that it should use our reducer function to figure out _how_ to change our app's state
+- We defined click-handlers for our buttons which use the store's `dispatch` function to send `ADD_ACTION`s and `SUBTRACT_ACTION`s to the store; then we used plain old JavaScript `getElementById` to attach those handlers to our UI elements
+
+Now, when we click those buttons, data is flowing through our app!
+
+1) We click a button
+2) That dispatches an action to the store
+3) The store uses the `reducer` to determine the next state
+4) The store broadcasts that the state changed
+
+All that's left to do is to subscribe to those changes and to update our on-screen counter!
 
 ### Subscribing to changes
+
+We'll use the `subscribe` function that's exposed by the `store` in order to listen for any changes to our app's state.
 
 ```html
 <script>
   // ... actions, reducer, store-creation, and action-dispatching omitted for brevity
 
   store.subscribe(() => {
-    console.log('state changed', stateSnapshot)
-
+    // get the state
     const stateSnapshot = store.getState()
 
+    console.log('state changed', stateSnapshot)
+  
+    // use plain old JavaScript to update our UI
     document.getElementById('counterDisplay').innerText = stateSnapshot.counter
   })
 </script>
