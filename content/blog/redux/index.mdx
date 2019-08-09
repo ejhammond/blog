@@ -159,7 +159,8 @@ Our reducer needs to be able to handle two different types actions: "ADD"s and "
   const initialState = { count: 0 }
 
   function reduce(currentState = initialState, action) {
-    // remember, our action looks like this: { type: "ADD" | "SUBTRACT", amount: number }
+    // remember, our action looks like this:
+    // { type: "ADD" | "SUBTRACT", amount: number }
     switch (action.type) {
       case 'ADD':
         return {
@@ -221,7 +222,7 @@ function reduce(currentState, action) {
 }
 ```
 
-Even though we updated `count`, the object that we returned from the reducer _is the same exact object that was passed **in** to the reducer_ (`currentState`). So, when the store does `nextState !== currentState`, it'll say "nope, they're both the same object; no state change detected!"
+Even though we updated `count`, the object that we returned from the reducer _is the same exact object that was passed **in** to the reducer_ (`currentState`). So, when the store compares the new state with the old state, it'll say "they're both the same object; no state change detected!"
 
 This is a **huge** deal! If we aren't careful with how we build our reducer, Redux will fail to detect state changes.
 
@@ -274,7 +275,8 @@ Awesome! At this point we've got a fancy new Redux store complete with a reducer
 
   document.getElementById('addButton').onclick = () => {
     // we'll create an ADD_1 action using our actionCreator
-    const ADD_1_ACTION = createAddAction(1) // returns { type: "ADD", amount: 1 }
+    // createAddAction(1) returns { type: "ADD", amount: 1 }
+    const ADD_1_ACTION = createAddAction(1) 
   
     // then dispatch it to the store
     store.dispatch(ADD_1_ACTION)
