@@ -82,26 +82,31 @@ With that said, let's get started!
 </html>
 ```
 
-There it is. It's beautiful. It's 2 buttons and a div. We've included Redux via a script tag, but we haven't done anything with it yet. Let's change that! We'll start by defining the different **actions** that our app will need to dispatch.
+There it is. It's beautiful. It's 2 buttons and a div. We've included Redux via a script tag, but we haven't done anything with it yet. Let's change that! 
 
-### Actions
+Redux is going to help us manage the _state_ of our app. But what _is_ an app's _state_?
 
-An action can be whatever we want. The important thing to know is that whatever we choose as our action will be sent to a function (our reducer) which will need to be able to determine how the app's state should change in response to the action.
+Earlier, I referred to the state of the app as _the data behind the UI_. In modern UI development, it is often convenient to think of your UI as _a function of your state_, which is to say: given some data (the current state), we should be able to produce a UI for that state. This is a really powerful concept that we won't get too deep into in this post, but suffice to say: we want to be able to determine what our UI looks like based purely on some set of data (the state).
 
-Since we have full control over the reducer function (we'll write ours in the next step), we're free to define our actions however we want.
+In order to produce our UI, we really only need to know one thing: the current value of the counter. So, let's keep our state in an object like this:
+
+```js
+{ count: number }
+```
+
+More complex applications would have much more complicated state-layouts, but this one is perfect for our little counter.
+
+Now that we know what our state is going to look like, let's think about the different ways that it can change: the **actions**!
+
+### Thinking about Actions
+
+Before we get into the technical details of how we'll create our actions, let's think about the different ways that our state can change. Well, we've got a plus button and a minus button, so our count can go up by 1 or down by 1. And that's it! We've got 2 actions, let's call them `ADD_ACTION` and `SUBTRACT_ACTION`.
+
+Next, we need to decide how we want to represent those actions in our app. The important thing to remember when choosing how to represent an action is:
 
 > As long as you can accurately determine the next state of the app based on the current state and the action that you send, the action is perfectly valid.
 
-Conventionally, we make each action an object with a `type` property along with any additional data necessary for the reducer to do it's job. In this case, no additional information is necessary other than the `type`, so we'll do something like this:
-
-```html
-<script>
-  const ADD_ACTION = { type: 'ADD' }
-  const SUBTRACT_ACTION = { type: 'SUBTRACT' }
-</script>
-```
-
-But if we tossed the `type` convention aside, we totally could have just done this:
+So, we could say:
 
 ```html
 <script>
@@ -110,45 +115,65 @@ But if we tossed the `type` convention aside, we totally could have just done th
 </script>
 ```
 
-Here, our actions are just strings rather than objects. These strings contain enough info for us to know whether to increment or decrement the count, so they're perfectly valid as actions! The point is: there's no magic going on here; an action is whatever you want it to be, but we usually use objects with a property called `type`.
+Given the currentState--let's say `{ count: 0 }`--and one of these actions--let's say `ADD_ACTION`--we can definitely determine the next state of the app: `{ count: 1 }`.
+
+It's really as simple as that! But, what if sometime down the line we wanted to add another button to our app that added 10 to our counter rather than just adding 1? We could create another action `ADD_10_ACTION = 'ADD_10'` and that would work, but we can do better. What if we represented our actions as objects rather than strings like `"ADD"` and `"ADD_10"`? We could, for instance, include the amount that we'd like to add with our action:
+
+```js
+ADD_N_ACTION: { type: 'ADD', amount: number }
+SUBTRACT_N_ACTION: { type: 'SUBTRACT', amount: number }
+```
+
+Then we could write a little factory that could build us an ADD_N_ACTION with whatever value we want. That would make our lives easier when we need to add +5 and +100 buttons to our app.
+
+```html
+<script>
+  function createAddAction(amount) {
+    return { type: 'ADD', amount: amount };
+  }
+  
+  function createSubtractAction(amount) {
+    return { type: 'SUBTRACT', amount: amount };
+  }
+</script>
+```
+
+This pattern of creating functions which produce actions is called the `actionCreator` pattern, and it's used in almost every Redux app that I've ever seen!
+
+Even though we don't need the `actionCreator` pattern for this app, let's use it anyway so that we're ready to adapt to future feature requirements.
 
 Next, let's build the reducer function!
 
 ### Reducer
 
-In the Redux world, the reducer function has a very important job: take the current state of the app plus an action and return the next state of the app. So, we first need to decide what our app's state is going to look like!
+In the Redux world, the reducer function has a very important job: take the current state of the app plus an action and return the next state of the app.
 
-Let's start with an object with a prop called `counter` which will hold the current count that should be displayed on the screen.
+> The reducer: `currentState` + `action` = `nextState`
 
-```js
-const initialState = { counter: 0 }
-```
-
-Next, the reducer function itself.
-
-Our reducer needs to be able to handle two different actions: `ADD_ACTION` and `SUBTRACT_ACTION`. When `ADD_ACTION` is received, we'll increment the value of `counter` by 1, and when `SUBTRACT_ACTION` is received we'll decrement the value of `counter` by 1.
+Our reducer needs to be able to handle two different types actions: "ADD"s and "SUBTRACT"s. When an "ADD" is received, we'll increment the counter by whatever `amount` is attached to the action, and when "SUBTRACT" is received we'll decrement the counter by whatever `amount` is attached to the action.
 
 ```html
 <script>
-  // actions omitted for brevity
+  // action creators omitted for brevity
 
-  const initialState = { counter: 0 }
+  const initialState = { count: 0 }
 
   function reduce(currentState = initialState, action) {
+    // remember, our action looks like this: { type: "ADD" | "SUBTRACT", amount: number }
     switch (action.type) {
       case 'ADD':
         return {
           ...currentState,
-          counter: currentState.counter + 1,
+          count: currentState.count + action.amount,
         }
       case 'SUBTRACT':
         return {
           ...currentState,
-          counter: currentState.counter - 1,
+          count: currentState.count - action.amount,
         }
       default:
         /*
-        if the action was not ADD or SUBTRACT,
+        if the action.type was not ADD or SUBTRACT,
         we return the currentState unchanged
         */
         return currentState
@@ -157,27 +182,7 @@ Our reducer needs to be able to handle two different actions: `ADD_ACTION` and `
 </script>
 ```
 
-Again, we're following some conventions here, but it's worth pointing out that _we don't need to_. The reducer is simply a function. There's no magic (tm). We've chosen to keep our state in an object (e.g. `initialState = { counter: 0 }`) but since we only have one thing to track, we could have just done `initialState = 0`. We also used a switch statement to organize our logic, but we didn't need to do that either. Here's an example of a reducer which ignores those conventions, but would work just as well for our app:
-
-```html
-<script>
-  // actions omitted for brevity
-
-  const initialState = 0
-
-  function reduce(currentState = initialState, action) {
-    if (action.type === 'ADD') {
-      return currentState + 1
-    } else if (action.type === 'SUBTRACT') {
-      return currentState - 1
-    } else {
-      return currentState
-    }
-  }
-</script>
-```
-
-We typically wrap our state in an object to make it more scalable (what if we wanted to add another value to our state?) and we typically use a switch statement for scalability as well (what if we add a bunch more actions?), but the implementation is entirely up to you!
+Again, we're following some conventions here, but it's worth pointing out that _we don't need to_. The reducer is simply a function. There's no magic (tm). The switch statement is a convenient and scalable way to process different types of actions, but you could use a regular if/else if you wanted to!
 
 #### A note on equality
 
@@ -207,16 +212,16 @@ This type of comparison is **super fast**, but there is a big "gotcha" that we n
 
 function reduce(currentState, action) {
   if (action.type === 'ADD') {
-    currentState.counter += 1
+    currentState.count += action.amount
   } else if (action.type === 'SUBTRACT') {
-    currentState.counter -= 1
+    currentState.count -= action.amount
   }
 
   return currentState
 }
 ```
 
-Even though we updated `counter`, the object that we returned from the reducer _is the same object that was passed **in** to the reducer_ (`currentState`). So, when the store does `nextState !== currentState`, it'll say "nope, they're both the same object; no state change detected!"
+Even though we updated `count`, the object that we returned from the reducer _is the same exact object that was passed **in** to the reducer_ (`currentState`). So, when the store does `nextState !== currentState`, it'll say "nope, they're both the same object; no state change detected!"
 
 This is a **huge** deal! If we aren't careful with how we build our reducer, Redux will fail to detect state changes.
 
@@ -230,13 +235,13 @@ switch (action.type) {
     // returns a new object
     return {
       ...currentState, // clone the currentState's children
-      counter: currentState.counter + 1, // overwrite counter
+      count: currentState.count + action.amount, // overwrite count
     }
   case 'SUBTRACT':
     // returns a new object
     return {
       ...currentState, // clone the currentState's children
-      counter: currentState.counter - 1, // overwrite counter
+      count: currentState.count - action.amount, // overwrite count
     }
   default:
     return currentState // return the currentState as-is, there's no change
@@ -257,7 +262,7 @@ Now that we have our reducer, we'll construct our store. We'll use Redux's `crea
 </script>
 ```
 
-Awesome! At this point we've got a fancy new Redux store complete with a reducer that can handle `ADD_ACTION`s and `SUBTRACT_ACTION`s. The next step is to be able to dispatch those actions to the store whenever the user clicks one of our buttons.
+Awesome! At this point we've got a fancy new Redux store complete with a reducer that can handle `ADD`s and `SUBTRACT`s. The next step is to be able to dispatch those actions to the store whenever the user clicks one of our buttons.
 
 ### Dispatch
 
@@ -268,11 +273,16 @@ Awesome! At this point we've got a fancy new Redux store complete with a reducer
   const store = Redux.createStore(reduce)
 
   document.getElementById('addButton').onclick = () => {
-    store.dispatch(ADD_ACTION)
+    // we'll create an ADD_1 action using our actionCreator
+    const ADD_1_ACTION = createAddAction(1) // returns { type: "ADD", amount: 1 }
+  
+    // then dispatch it to the store
+    store.dispatch(ADD_1_ACTION)
   }
 
   document.getElementById('subtractButton').onclick = () => {
-    store.dispatch(SUBTRACT_ACTION)
+    const SUBTRACT_1_ACTION = createSubtractAction(1)
+    store.dispatch(SUBTRACT_1_ACTION)
   }
 </script>
 ```
@@ -280,8 +290,8 @@ Awesome! At this point we've got a fancy new Redux store complete with a reducer
 We're using the `dispatch` method that's exposed by the store in order to indicate that an action has occurred. Behind the scenes, the store will invoke our reducer function and determine the next state of the application, then it will broadcast a message out to any subscribers to let them know that the state has changed.
 
 Let's take a moment to recap what we've done so far.
-- We defined 2 _actions_, `ADD_ACTION` and `SUBTRACT_ACTION`, which are just simple objects
-- We defined the shape of the _state_ of our app: it looked like this `{ counter: number }`
+- We defined the shape of the _state_ of our app: it looked like this `{ count: number }`
+- We defined 2 _action-creators_, which create actions for us. The actions themselves were just simple objects like this `{ type: "ADD", amount: 1 }`
 - We defined our _reducer_, which is a function that handles the operation: `currentState + action = nextState`
 - We used `Redux` to create a `store` and told that store that it should use our reducer function to figure out _how_ to change our app's state
 - We defined click-handlers for our buttons which use the store's `dispatch` function to send `ADD_ACTION`s and `SUBTRACT_ACTION`s to the store; then we used plain old JavaScript `getElementById` to attach those handlers to our UI elements
