@@ -27,11 +27,11 @@ _This article is part of the My Mental Model series which seeks to capture my un
 
 ## Introduction
 
-[Redux](https://github.com/reduxjs/redux) is popular JavaScript library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to maintain. In this installment of "My Mental Model" I'll introduce the core concepts of Redux and then we'll build a minimal app with plain html/css/js in order to illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
+[Redux](https://github.com/reduxjs/redux) is popular JavaScript library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to maintain. In this installment of "My Mental Model" I'll introduce the core concepts of Redux and then we'll build a minimal app with plain HTML/CSS/JS in order to illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
 
 ## Redux
 
-Redux is a "state management" library which means that it deals specifically with the your application's state. Redux is unopionated about your UI, and it can be used alongside _any_ UI framework (typically with a helper-library like `react-redux`).
+Redux is a _state management_ library which means that it deals with the _data behind your UI_ rather than dealing with your UI itself. In fact, **Redux is entirely unopionated about your UI** meaning that it can be used alongside _any_ UI framework (React, Angular, Vue, or even plain old HTML/CSS/JS)! This is sometimes surprising to folks who have only seen Redux used alongside React, but we'll see in this post how Redux can work with any type of app at all.
 
 Redux's super power is that it makes sure that every state-change in your application is predictable and traceable.
 
