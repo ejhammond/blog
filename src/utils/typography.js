@@ -93,6 +93,12 @@ const theme = {
         borderRadius: '4px',
         fontSize: '1em',
       },
+      '.gatsby-highlight code': {
+        // undo all of the fancy `code` styles if we're inside of .gatsby-highlight
+        border: 'none',
+        padding: 0,
+        borderRadius: 'unset',
+      },
       em: {
         fontFamily: `${emphasizedFontFamily}, ${baseFontFamily}`,
         fontSize: '1.14em', // bump up size to match body font
