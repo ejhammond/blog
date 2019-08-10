@@ -1,4 +1,5 @@
 ---
+id: redux
 title: 'My Mental Model: Redux'
 date: '2019-06-29T02:18:19.900Z'
 description: My mental model of Redux
@@ -82,7 +83,7 @@ With that said, let's get started!
 </html>
 ```
 
-There it is. It's beautiful. It's 2 buttons and a div. We've included Redux via a script tag, but we haven't done anything with it yet. Let's change that! 
+There it is. It's beautiful. It's 2 buttons and a div. We've included Redux via a script tag, but we haven't done anything with it yet. Let's change that!
 
 Redux is going to help us manage the _state_ of our app. But what _is_ an app's _state_?
 
@@ -91,7 +92,9 @@ Earlier, I referred to the state of the app as _the data behind the UI_. In mode
 In order to produce our UI, we really only need to know one thing: the current value of the counter. So, let's keep our state in an object like this:
 
 ```js
-{ count: number }
+{
+  count: number
+}
 ```
 
 More complex applications would have much more complicated state-layouts, but this one is perfect for our little counter.
@@ -129,11 +132,11 @@ Then we could write a little factory that could build us an ADD_N_ACTION with wh
 ```html
 <script>
   function createAddAction(amount) {
-    return { type: 'ADD', amount: amount };
+    return { type: 'ADD', amount: amount }
   }
-  
+
   function createSubtractAction(amount) {
-    return { type: 'SUBTRACT', amount: amount };
+    return { type: 'SUBTRACT', amount: amount }
   }
 </script>
 ```
@@ -276,8 +279,8 @@ Awesome! At this point we've got a fancy new Redux store complete with a reducer
   document.getElementById('addButton').onclick = () => {
     // we'll create an ADD_1 action using our actionCreator
     // createAddAction(1) returns { type: "ADD", amount: 1 }
-    const ADD_1_ACTION = createAddAction(1) 
-  
+    const ADD_1_ACTION = createAddAction(1)
+
     // then dispatch it to the store
     store.dispatch(ADD_1_ACTION)
   }
@@ -292,6 +295,7 @@ Awesome! At this point we've got a fancy new Redux store complete with a reducer
 We're using the `dispatch` method that's exposed by the store in order to indicate that an action has occurred. Behind the scenes, the store will invoke our reducer function and determine the next state of the application, then it will broadcast a message out to any subscribers to let them know that the state has changed.
 
 Let's take a moment to recap what we've done so far.
+
 - We defined the shape of the _state_ of our app: it looked like this `{ count: number }`
 - We defined 2 _action-creators_, which create actions for us. The actions themselves were just simple objects like this `{ type: "ADD", amount: 1 }`
 - We defined our _reducer_, which is a function that handles the operation: `currentState + action = nextState`
@@ -320,7 +324,7 @@ We'll use the `subscribe` function that's exposed by the `store` in order to lis
     const stateSnapshot = store.getState()
 
     console.log('state changed', stateSnapshot)
-  
+
     // use plain old JavaScript to update our UI
     document.getElementById('counterDisplay').innerText = stateSnapshot.counter
   })

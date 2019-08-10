@@ -22,6 +22,7 @@ export const pageQuery = graphql`
         body
       }
       frontmatter {
+        id
         title
         date(formatString: "MMMM DD, YYYY")
         description
@@ -30,11 +31,16 @@ export const pageQuery = graphql`
   }
 `
 
+const GITHUB_USERNAME = 'tripphamm'
+const GITHUB_REPO_NAME = 'blog'
+
 class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.mdx
     const siteTitle = this.props.data.site.siteMetadata.title
     const { previous, next } = this.props.pageContext
+
+    const editOnGitHubURL = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/edit/master/content/blog/${post.frontmatter.id}/index.mdx`
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -61,6 +67,9 @@ class BlogPostTemplate extends React.Component {
             marginBottom: rhythm(1),
           }}
         />
+        <a href={editOnGitHubURL} target="_blank" rel="noopener noreferrer">
+          Edit on GitHub
+        </a>
         <Bio />
 
         <ul
