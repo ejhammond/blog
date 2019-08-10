@@ -28,7 +28,7 @@ _This article is part of the My Mental Model series which seeks to capture my un
 
 ## Introduction
 
-[Redux](https://github.com/reduxjs/redux) is popular JavaScript library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to maintain. In this installment of "My Mental Model" I'll introduce the core concepts of Redux and then we'll build a minimal app with plain HTML/CSS/JS in order to illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
+[Redux](https://github.com/reduxjs/redux) is popular JavaScript library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to maintain. In this installment of _My Mental Model_ I'll introduce the core concepts of Redux and then we'll build a minimal app with plain HTML/CSS/JS in order to illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
 
 ## Redux
 
@@ -57,9 +57,11 @@ We're going to build a "counter" application. It'll have 2 buttons (plus and min
 
 ### Disclaimer
 
+The _state_ that this app tracks is just a single number (the current count), and there are only two ways that the state can change (the plus button and the minus button). **We don't need Redux in this app**!
+
 > Remember: if you're having trouble figuring out \*how\* your app got into a certain state, Redux can help by making sure that state-changes are predictable and traceable
 
-The _state_ that this app tracks is just a single number (the current count), and there are only two ways that the state can change (the plus button and the minus button). **We don't need Redux** in this app! We're going to use it anyway for illustrative purposes, but remember that adding a dependency or framework to your application almost always comes with a cost. In the case of Redux, we introduce some abstractions (e.g. actions, a store, a reducer) which are helpful in complex applications, but add unnecessary cognitive load in simpler projects like this one.
+We're using Redux in this app for illustrative purposes, but remember that adding a dependency or framework to your application almost always comes with a cost. In the case of Redux, we introduce some abstractions (e.g. actions, a store, a reducer) which are helpful in complex applications, but add unnecessary cognitive load in simpler projects like this one.
 
 With that said, let's get started!
 
