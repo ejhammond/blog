@@ -92,12 +92,16 @@ const theme = {
         padding: '2px 5px',
         borderRadius: '4px',
         fontSize: '1em',
+        whiteSpace: 'nowrap',
       },
       '.gatsby-highlight code': {
         // undo all of the fancy `code` styles if we're inside of .gatsby-highlight
         border: 'none',
         padding: 0,
         borderRadius: 'unset',
+      },
+      '.gatsby-highlight': {
+        marginBottom: '30px',
       },
       em: {
         fontFamily: `${emphasizedFontFamily}, ${baseFontFamily}`,
