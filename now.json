@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "blog",
-  "alias": ["trippstips.com", "tripphamm.dev", "tripphamm.com"],
+  "alias": ["trippstips.com", "tripphamm.dev", "tripphamm.com", "tripps.tips"],
   "builds": [
     {
       "src": "package.json",
