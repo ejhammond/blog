@@ -261,7 +261,7 @@ This should be pretty straight-forward, but there are a few parts that might not
 
 The trick here is that when Redux first initializes, it is going to call our reducer function with `undefined` as the `currentState` in order to figure out the first state of the app. So we handle that by saying "if currentState is undefined, pass back the initialState".
 
-### How Redux Detects a Change
+#### How Redux Detects a Change
 
 The next part that might look a little funny is the return statement.
 
@@ -271,7 +271,7 @@ return {
 }
 ```
 
-Here, we're creating a new object with updated `count` value and returning it. But wouldn't it have been simpler to do something like this:
+Here, we're creating a new object with the updated `count` value and returning it. But wouldn't it have been simpler to do something like this:
 
 ```js
 // this reducer is broken!
