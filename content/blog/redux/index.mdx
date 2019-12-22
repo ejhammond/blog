@@ -384,7 +384,7 @@ Not so bad. But notice that we had to add an extra line to each of the different
 
 Okay, but what happens when the app gets even more complex and we need to keep track of even more state? Are we going to need to add an extra line to every `case` in our reducer for every new state that we want to track? That would be a pain.
 
-Instead, let's make use of a neat JavaScript feature which allows us to clone _all of the keys_ from one object into another. This way, in each of our `case`s we can say change this one thing and then just clone all of the current values for any other state that might exist. Here's what that might look like:
+Instead, let's make use of a neat JavaScript feature which allows us to clone _all of the keys_ from one object into another. This way, in each of our `case`s we can say: clone all of the current values, and then change this one thing. Here's what that might look like:
 
 ```js
 const initialState = { count: 0, theme: 'light' }
@@ -470,7 +470,7 @@ Let's take a moment to recap what we've done so far.
 - We defined 2 _action-creators_, which create actions for us. The actions themselves were just simple objects like this `{ type: "ADD", amount: 1 }`
 - We defined our _reducer_, which is a function that handles the operation: `currentState + action = nextState`
 - We used `Redux` to create a `store` and told that store that it should use our reducer function to figure out _how_ to change our app's state
-- We defined click-handlers for our buttons which use the store's `dispatch` function to send `ADD_ACTION`s and `SUBTRACT_ACTION`s to the store; then we used plain old JavaScript `getElementById` to attach those handlers to our UI elements
+- We defined click-handlers for our buttons which use the store's `dispatch` function to send `ADD_ACTION`s and `SUBTRACT_ACTION`s to the store; then we used plain old JavaScript to attach those handlers to our UI elements
 
 Now, when we click those buttons, data is flowing through our app!
 
