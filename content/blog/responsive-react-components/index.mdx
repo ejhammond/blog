@@ -1,0 +1,112 @@
+---
+id: responsive-react-components
+title: 'Responsive React Components'
+date: '2019-11-10T00:00:00.000Z'
+description: A pattern for creating responsive components
+---
+
+import { Caption, Figure } from '../../../src/components/CaptionedFigure'
+
+## Responsive Web Design
+
+In a [previous post](/responsive-web-design) we talked about some of the foundational concepts behind responsive web design and we covered some of the patterns and techniques that developers use in order to build such pages.
+
+We talked about how _relative units_ allow us to specify dynamic sizes for components so that they can grow and shrink depending on the size of the user's screen.
+
+We also talked about _grid systems_ and how they allow us to re-organize the components on the page such that they're stacked one on top of the other rather than sitting side by side.
+
+And we talked about _breakpoints_ and _media queries_ and how they allow us specify custom rules for how our pages should behave on different screen sizes.
+
+Up until now, we've focused on customizing the _layout, size, and positioning_ of components on a page. In this article, we're gonna go one step further and talk about how we can go beyond layout, size, and postitioning in order to make our components fully responsive!
+
+## Fully Responsive Components
+
+> For the rest of this post, we're going to be using React components to illustrate concepts, but these ideas can be applied to any component-based UI framework (Angular/Vue/Svelte etc.)!
+
+Let's say that we're building a responsive web page and we need to show a [carousel](https://www.nngroup.com/articles/designing-effective-carousels/) of images.
+
+Using our relative units and a grid system, we're able to position the carousel perfectly across all screen sizes, and we're able to make the carousel grow and shrink based on the available space, but we encounter a problem.
+
+On large screens we want to show 4 images at a time, but on very small screens we can't fit 4 images without making them tiny, so we only want to show 1 image.
+
+<Figure>
+  <img
+    alt="Carousel sizes"
+    src="https://raw.githubusercontent.com/tripphamm/react-responsive-system/master/readme-images/carousel-sizes.png"
+  />
+</Figure>
+
+How can we make that work?
+
+Let's go through our responsive toolkit:
+
+1. Relative Units - allow us to specify the _size_ of a component based on the size of the screen
+2. Grid Systems - allow us to re-organize content based on the size of the screen
+3. Breakpoints + Media Queries - allow us to specify custom rules for different screen sizes
+
+Relative units and grid systems can't really help us here, but breakpoints and media queries sound promising! In the last article, when we talked about breakpoints and media queries we focused on how
+But... `slidesToShow` is not a CSS style, it's a property of a React component and it lives in a `.js` file. We can't add a CSS rule that changes `slidesToShow` depending on the screen class. To overcome this limitation, folks often write a CSS rule that shows/hides an element based on the screen class.
+
+Let's play that out.
+
+```jsx
+<Carousel
+  slidesToShow={4}
+  className="hidden-on-medium-screens hidden-on-small-screens"
+/>
+<Carousel
+  slidesToShow={2}
+  className="hidden-on-large-screens hidden-on-small-screens"
+/>
+<Carousel
+  slidesToShow={1}
+  className="hidden-on-large-screens hidden-on-medium-screens"
+/>
+```
+
+Oof. There are a few problems here. The first one is that we're actually shipping a lot of extra HTML/JS to our users; rather than a single `Carousel`, we're sending 3 `Carousel`s each with different props. The second issue is that this pattern is going to be really hard to maintain; having duplicate (triplicate) components all over your codebase is gonna make your code hard to read and it's error-prone.
+
+We could solve the first issue by trying to detect the user's screen size before we send them the code, and then choosing the proper `Carousel` based on that info. But it turns out that detecting screen size is tougher than it sounds, and--besides--what if the user resizes their browser after you've made your decision?
+
+## Solution
+
+Let's take a step back. We assumed that we needed to use CSS to change this prop, but that's actually not the case. If our Javascript was aware of the current screen class, then we'd know when to change the prop, and we wouldn't have to rely CSS at all!
+
+Once our JS is aware of the screen class, we can write something like this instead:
+
+```jsx
+<Carousel
+  slidesToShow={1} // default to 1 slide
+  medium={{ slidesToShow: 2 }} // override props on `medium` screens
+  large={{ slidesToShow: 4 }} // override props on `large` screens
+/>
+```
+
+One component. No server-side screen-size detection. Easy to read/maintain.
+
+The idea is: whenever you have a component that needs to render differently on different screen classes, you give it some extra props that correspond to your screen classes. Any values that you pass will be applied as overrides when the screen reaches the appropriate size!
+
+## Responsive System
+
+Here's where Responsive System comes in. We're trying to make it as easy as possible to use this pattern.
+
+We'll cover the set-up instructions in the next section, but here's a sneak-peek at how easy it will be to add this responsive functionality to an existing component:
+
+```jsx
+import { Button } from '@material-ui/core/Button';
+
+// just pass your component to the `responsive` util
+// all of your screen classes are added as props
+// and the overrides will be handled automatically
+const ResponsiveButton = responsive(Button);
+
+<ResponsiveButton
+  color="primary",
+  variant="outlined",
+  marginTop="2em",
+  small={{
+    marginTop: "1em",
+    fullWidth: true,
+  }}
+/>
+```
