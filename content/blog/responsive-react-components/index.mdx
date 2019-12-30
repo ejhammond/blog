@@ -6,6 +6,10 @@ description: A pattern for creating responsive components
 ---
 
 import { Caption, Figure } from '../../../src/components/CaptionedFigure'
+import {
+  FixedAspectRatioBox,
+  CappedWidthBox,
+} from '../../../src/components/FixedAspectRatioBox'
 
 ## Responsive Web Design
 
@@ -30,10 +34,14 @@ On large screens we want to show 4 images at a time, but on very small screens w
 Here's a mockup of what we want. 4 images on large screens like a full-screen desktop browser, 2 images on medium screens like a tablet, and 1 image on small screens like a mobile phone.
 
 <Figure>
-  <img
-    alt="Carousel sizes"
-    src="https://raw.githubusercontent.com/tripphamm/react-responsive-system/master/readme-images/carousel-sizes.png"
-  />
+  <CappedWidthBox maxWidth={300}>
+    <FixedAspectRatioBox aspectRatio={111 / 301}>
+      <img
+        alt="Carousel on differently-sized screens"
+        src="https://res.cloudinary.com/tripphamm/image/upload/v1577726270/tripps-tips/responsive-react-components/carousel-sizes_pihgd3.png"
+      />
+    </FixedAspectRatioBox>
+  </CappedWidthBox>
 </Figure>
 
 And here's the API for the `Carousel` component.

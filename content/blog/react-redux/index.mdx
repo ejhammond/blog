@@ -5,37 +5,46 @@ date: '2019-06-30T02:18:19.900Z'
 description: Understanding how React Redux triggers re-renders in your application
 ---
 
-import { Image } from '../../../src/components/Image'
+import { Figure } from '../../../src/components/CaptionedFigure'
+import {
+  FixedAspectRatioBox,
+  CappedWidthBox,
+} from '../../../src/components/FixedAspectRatioBox'
 
-<div
-  style={{
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  }}
->
-  <Image
-    src="./react-logo.svg"
-    alt="React logo"
-    figureProps={{
-      style: { maxWidth: '250px', flexBasis: '40%' },
+<Figure>
+  <div
+    style={{
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
     }}
-  />
-  <span
-    role="img"
-    aria-label="heart emoji"
-    style={{ fontSize: '3em', flexBasix: '20%' }}
   >
-    💖
-  </span>
-  <Image
-    src="./redux-logo.svg"
-    alt="Redux logo"
-    figureProps={{
-      style: { maxWidth: '250px', flexBasis: '40%' },
-    }}
-  />
-</div>
+    <CappedWidthBox maxWidth={250} style={{ flexBasis: '40%' }}>
+      <FixedAspectRatioBox aspectRatio={438 / 491}>
+        <img
+          src="https://res.cloudinary.com/tripphamm/image/upload/v1577720577/logos/react-logo_elm9gj.svg"
+          alt="React logo"
+        />
+      </FixedAspectRatioBox>
+    </CappedWidthBox>
+    <span
+      role="img"
+      aria-label="heart emoji"
+      style={{ fontSize: '3em', flexBasix: '20%' }}
+    >
+      💖
+    </span>
+    <CappedWidthBox maxWidth={250} style={{ flexBasis: '40%' }}>
+      <FixedAspectRatioBox aspectRatio={2383 / 2500}>
+        <img
+          src="https://res.cloudinary.com/tripphamm/image/upload/v1577720577/logos/redux-logo_d1kpyb.svg"
+          alt="Redux logo"
+        />
+      </FixedAspectRatioBox>
+    </CappedWidthBox>
+  </div>
+</Figure>
 
 ## My Mental Model Series
 

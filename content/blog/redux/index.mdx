@@ -5,22 +5,23 @@ date: '2019-06-29T02:18:19.900Z'
 description: My mental model of Redux
 ---
 
-import { Image } from '../../../src/components/Image'
+import { Figure } from '../../../src/components/CaptionedFigure'
+import {
+  FixedAspectRatioBox,
+  CappedWidthBox,
+} from '../../../src/components/FixedAspectRatioBox'
 import { Counter } from './Counter'
 
-<div
-  style={{
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  }}
->
-  <Image
-    src="./redux-logo.svg"
-    alt="Redux logo"
-    style={{ maxWidth: '300px' }}
-  />
-</div>
+<Figure>
+  <CappedWidthBox maxWidth={300}>
+    <FixedAspectRatioBox aspectRatio={2383 / 2500}>
+      <img
+        src="https://res.cloudinary.com/tripphamm/image/upload/v1577720577/logos/redux-logo_d1kpyb.svg"
+        alt="Redux logo"
+      />
+    </FixedAspectRatioBox>
+  </CappedWidthBox>
+</Figure>
 
 ## My Mental Model Series
 
