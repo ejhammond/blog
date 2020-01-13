@@ -1,23 +1,24 @@
 import * as React from 'react'
+import { responsive } from '../responsive-system'
 
-const FixedAspectRatioBox = React.forwardRef((props, ref) => {
-  const {
-    contentProps = {},
+const FixedAspectRatioBox = responsive(
+  React.forwardRef(function FixedAspectRatioBox(props, ref) {
+    const {
+      contentProps = {},
 
-    children,
-    ...baseProps
-  } = props
+      children,
+      ...baseProps
+    } = props
 
-  return (
-    <FixedAspectRatioBoxBase ref={ref} {...baseProps}>
-      <FixedAspectRatioBoxContent {...contentProps}>
-        {children}
-      </FixedAspectRatioBoxContent>
-    </FixedAspectRatioBoxBase>
-  )
-})
-
-FixedAspectRatioBox.displayName = 'FixedAspectRatioBox'
+    return (
+      <FixedAspectRatioBoxBase ref={ref} {...baseProps}>
+        <FixedAspectRatioBoxContent {...contentProps}>
+          {children}
+        </FixedAspectRatioBoxContent>
+      </FixedAspectRatioBoxBase>
+    )
+  })
+)
 
 export { FixedAspectRatioBox }
 
@@ -81,7 +82,7 @@ FixedAspectRatioBoxContent.displayName = 'FixedAspectRatioBoxContent'
 export { FixedAspectRatioBoxContent }
 
 //
-// ─── MAX WIDTH BOX ──────────────────────────────────────────────────────────────
+// ─── CAPPED WIDTH BOX ───────────────────────────────────────────────────────────
 //
 
 const CappedWidthBox = React.forwardRef((props, ref) => {
@@ -99,3 +100,23 @@ const CappedWidthBox = React.forwardRef((props, ref) => {
 CappedWidthBox.displayName = 'CappedWidthBox'
 
 export { CappedWidthBox }
+
+//
+// ─── CAPPED HEIGHT BOX ──────────────────────────────────────────────────────────
+//
+
+const CappedHeightBox = React.forwardRef((props, ref) => {
+  const { maxHeight, style = {}, ...otherProps } = props
+
+  return (
+    <div
+      ref={ref}
+      style={{ maxHeight, height: '100%', width: '100%', ...style }}
+      {...otherProps}
+    />
+  )
+})
+
+CappedHeightBox.displayName = 'CappedHeightBox'
+
+export { CappedHeightBox }

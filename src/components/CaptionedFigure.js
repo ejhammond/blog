@@ -1,6 +1,7 @@
 import React from 'react'
+import { responsive } from '../responsive-system'
 
-export const Figure = props => {
+export const Figure = responsive(props => {
   const { style = {}, ...otherProps } = props
 
   return (
@@ -14,7 +15,7 @@ export const Figure = props => {
       {...otherProps}
     />
   )
-}
+})
 
 export const Caption = props => {
   const { style = {}, ...otherProps } = props

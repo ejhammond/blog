@@ -10448,6 +10448,11 @@ react-reconciler@^0.20.0:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
+react-responsive-system@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-responsive-system/-/react-responsive-system-0.7.0.tgz#962b9365e95a592dbcddee1511cd59fdef171867"
+  integrity sha512-xwExQUKd/JtTbb6f3IHzNTW+keLh6bmcU7HW8RisOD2q4bKx3CgrtRbVTC0tgAy1ET1rqavd789SU7PW0VklUQ==
+
 react-side-effect@^1.1.0:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.1.5.tgz#f26059e50ed9c626d91d661b9f3c8bb38cd0ff2d"

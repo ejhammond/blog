@@ -9,6 +9,7 @@ import { Caption, Figure } from '../../../src/components/CaptionedFigure'
 import {
   FixedAspectRatioBox,
   CappedWidthBox,
+  CappedHeightBox,
 } from '../../../src/components/FixedAspectRatioBox'
 
 ## Responsive Web Design
@@ -31,14 +32,41 @@ On large screens we want to show 4 images at a time, but on very small screens w
 
 > Quick note here: when I say "screen size" I really mean "window/screen size". In windowed environements (like desktop/laptop browsers), we're concerned with the size of the window rather than the size of the screen itself. I just don't want to write window/screen every time.
 
-Here's a mockup of what we want. 4 images on large screens like a full-screen desktop browser, 2 images on medium screens like a tablet, and 1 image on small screens like a mobile phone.
+Here's a mockup of what we want. 4 images on large screens like a full-screen desktop browser, 2 images on medium screens like a tablet, and 1 image on small screens like a mobile phone. While we're at it, let's drop the arrows on the phone-sized screen too.
 
-<Figure>
+<Figure
+  style={{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  }}
+  xs={{
+    style: {
+      flexDirection: 'column',
+    },
+  }}
+>
   <CappedWidthBox maxWidth={300}>
-    <FixedAspectRatioBox aspectRatio={111 / 301}>
+    <FixedAspectRatioBox aspectRatio={566 / 976}>
       <img
-        alt="Carousel on differently-sized screens"
-        src="https://res.cloudinary.com/tripphamm/image/upload/v1577726270/tripps-tips/responsive-react-components/carousel-sizes_pihgd3.png"
+        alt="Carousel on a desktop-sized screen"
+        src="https://res.cloudinary.com/tripphamm/image/upload/v1578886772/tripps-tips/responsive-react-components/carousel-desktop.png"
+      />
+    </FixedAspectRatioBox>
+  </CappedWidthBox>
+  <CappedWidthBox maxWidth={131}>
+    <FixedAspectRatioBox aspectRatio={730 / 548}>
+      <img
+        alt="Carousel on a tablet-sized screen"
+        src="https://res.cloudinary.com/tripphamm/image/upload/v1578887141/tripps-tips/responsive-react-components/carousel-tablet.png"
+      />
+    </FixedAspectRatioBox>
+  </CappedWidthBox>
+  <CappedWidthBox maxWidth={94}>
+    <FixedAspectRatioBox aspectRatio={367 / 193}>
+      <img
+        alt="Carousel on a phone-sized screen"
+        src="https://res.cloudinary.com/tripphamm/image/upload/v1578887181/tripps-tips/responsive-react-components/carousel-phone-no-arrows.png"
       />
     </FixedAspectRatioBox>
   </CappedWidthBox>
@@ -50,6 +78,8 @@ And here's the API for the `Carousel` component.
 <Carousel
   // needs to be 4, 2, or 1 depending on screen size
   imagesToShow={someNumber}
+  // needs to be false on phone-sized screens
+  showArrows={trueOrFalse}
 />
 ```
 
@@ -86,6 +116,7 @@ Let's play that out.
 />
 <Carousel
   imagesToShow={1}
+  showArrows={false}
   className="hidden-on-large-screens hidden-on-medium-screens"
 />
 ```
@@ -150,11 +181,9 @@ And now our `Carousel` is _fully responsive_! Now that we have the current scree
 
 ### React Responsive System
 
-Using media queries in JavaScript is a really power pattern, but once you've written code like this a few times, it starts to feel a little bit clunky.
+I've been using this pattern (media queries + React Context) for a while in order to create responsive React components and I like it so much that I've built a library to make it easier to pull off. It's called [`react-responsive-system`](https://www.npmjs.com/package/react-responsive-system).
 
-Writing the big `switch` statement is really verbose and kinda annoying. So I've built a library called [`react-responsive-system`](https://www.npmjs.com/package/react-responsive-system) to help!
-
-It creates the Context Provider for you and gives you a simple way to make any component responsive.
+Responsive System creates media queries based on your breakpoints and then gives you a React Context Provider that you can render in your app.
 
 Rather than writing a `switch` statement in your component, you just specify your overrides as props like this:
 
@@ -165,12 +194,12 @@ Rather than writing a `switch` statement in your component, you just specify you
 const ResponsiveCarousel = responsive(Carousel)
 
 <ResponsiveCarousel
-  imagesToShow={1} // default to 1 image
+  imagesToShow={4} // default to 4 images
   medium={{ imagesToShow: 2 }} // override props on `medium` screens
-  large={{ imagesToShow: 4 }} // override props on `large` screens
+  small={{ imagesToShow: 1, showArrows: false }} // override on `small` screens
 />
 ```
 
-The cool part is: you don't need to modify the component's code at all! The `medium` and `large` props in this example can be added automatically just by using the `responsive` utility. Furthermore, they're based on your own custom names for your breakpoints, so if your breakpoints are called "phone", "tablet", and "desktop" your components will get props with those names instead!
+The cool part is: you don't need to modify the component's code at all! The `medium` and `small` props in this example are added automatically just by using the `responsive` utility. Furthermore, they're based on your own custom names for your breakpoints, so if your breakpoints are called "phone", "tablet", and "desktop" your components will get props with those names instead!
 
-If you're interested in making your React components responsive, give it a try and let me know what you think on Twitter! [React Responsive System](https://www.npmjs.com/package/react-responsive-system)
+If you're interested in using making your React components responsive, give it a try and let me know what you think on Twitter! [React Responsive System](https://www.npmjs.com/package/react-responsive-system)
