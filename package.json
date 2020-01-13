@@ -4,6 +4,9 @@
   "description": "A blog powered by Gatsby and Markdown",
   "version": "0.1.0",
   "author": "Tripp Hammond <tripphamm@gmail.com>",
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@mdx-js/mdx": "^1.0.16",
     "@mdx-js/react": "^1.0.16",
