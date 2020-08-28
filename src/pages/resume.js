@@ -7,7 +7,7 @@ import Layout from '../components/layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
 
-const GITHUB_USERNAME = 'tripphamm'
+const GITHUB_USERNAME = 'ejhammond'
 const GITHUB_REPO_NAME = 'blog'
 
 export const pageQuery = graphql`
@@ -56,16 +56,13 @@ class Resume extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO
-          title="Tripp Hammond Resume"
-          description="Tripp Hammond's resume"
-        />
+        <SEO title="EJ Hammond Resume" description="EJ Hammond's resume" />
         <h1>Edward J Hammond</h1>
-        <div>Preferred names: EJ, Tripp</div>
-        <div>Lead Front End Engineer at Vistaprint</div>
+        <div>Preferred names: EJ</div>
+        <div>Front End Engineer at Facebook</div>
         <div>Greater Boston Area</div>
 
-        <a href={`https://twitter.com/${social.twitter}`}>@tripphamm</a>
+        <a href={`https://twitter.com/${social.twitter}`}>@ejhammond</a>
 
         <section>
           <h2>Summary</h2>
@@ -80,7 +77,7 @@ class Resume extends React.Component {
 
           <p>
             Sometimes I write about tech topics on my blog,{' '}
-            <a href="https://tripps.tips">Tripp's Tips</a>.
+            <a href="https://hamblog.com">Hamblog</a>.
           </p>
         </section>
         <section>
@@ -89,7 +86,7 @@ class Resume extends React.Component {
             <h3>Front End</h3>
             <ul>
               <li>JavaScript</li>
-              <li>TypeScript</li>
+              <li>TypeScript, Flow</li>
               <li>CSS3, LESS, SASS</li>
               <li>HTML5 + Accessibility</li>
               <li>React</li>
@@ -102,20 +99,29 @@ class Resume extends React.Component {
               <li>NodeJS + Express, C# + MVC/WebAPI</li>
               <li>MongoDB, MS SQL</li>
               <li>AWS: S3, Cloudfront, Route53</li>
-              <li>REST</li>
+              <li>REST, GraphQL</li>
             </ul>
           </section>
         </section>
         <section>
           <h2>Experience</h2>
           <Company
+            name="Facebook"
+            location="Cambridge, MA"
+            timeframe="< 1 year"
+          >
+            <Role name="Front End Engineer" timeframe="June 2020 - Present">
+              Building UI's for internal tools
+            </Role>
+          </Company>
+          <Company
             name="Vistaprint"
             location="Waltham, MA"
-            timeframe="4 years 3 months"
+            timeframe="4 years 9 months"
           >
             <Role
               name="Lead Front End Developer (UI Team)"
-              timeframe="March 2019 - Present"
+              timeframe="March 2019 - June 2020 (1 year)"
             >
               Working directly with in-house and contract designers to create
               Vistaprint's first design system. Implementing a component library

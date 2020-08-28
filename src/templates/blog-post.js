@@ -31,7 +31,7 @@ export const pageQuery = graphql`
   }
 `
 
-const GITHUB_USERNAME = 'tripphamm'
+const GITHUB_USERNAME = 'ejhammond'
 const GITHUB_REPO_NAME = 'blog'
 
 class BlogPostTemplate extends React.Component {

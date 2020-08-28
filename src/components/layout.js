@@ -3,7 +3,7 @@ import { Link } from 'gatsby'
 
 import { rhythm, scale } from '../utils/typography'
 import { primary, textKnockout } from '../utils/theme-colors'
-import logo from '../../content/assets/tripphamm-logo-alt.png'
+import logo from '../../content/assets/hamblog-logo-alt.png'
 
 class Layout extends React.Component {
   render() {

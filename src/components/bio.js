@@ -61,9 +61,9 @@ function Bio() {
             <div>
               <p style={{ marginTop: 0, marginBottom: 5 }}>
                 <strong>{author}</strong> (
-                <a href={`https://twitter.com/${social.twitter}`}>@tripphamm</a>
+                <a href={`https://twitter.com/${social.twitter}`}>@ejhammond</a>
                 ) is a Boston-based web dev who writes code at{' '}
-                <a href={`https://twitter.com/vistaprint`}>@vistaprint</a>.
+                <a href={`https://twitter.com/facebook`}>@facebook</a>.
               </p>
             </div>
           </div>

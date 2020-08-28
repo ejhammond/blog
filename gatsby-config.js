@@ -1,11 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: `Tripp's Tips`,
-    author: `Tripp Hammond`,
+    title: `Hamblog`,
+    author: `EJ Hammond`,
     description: `Dev stuff`,
-    siteUrl: `https://tripphamm.dev/`,
+    siteUrl: `https://hamblog.com/`,
     social: {
-      twitter: `tripphamm`,
+      twitter: `ejhammond`,
     },
   },
   plugins: [
@@ -63,13 +63,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Tripp's Tips`,
-        short_name: `Tripp's Tips`,
+        name: `Hamblog`,
+        short_name: `Hamblog`,
         start_url: `/`,
         background_color: `#ececec`,
         theme_color: `#385170`,
         display: `minimal-ui`,
-        icon: `content/assets/tripphamm-logo-alt.png`,
+        icon: `content/assets/hamblog-logo-alt.png`,
       },
     },
     `gatsby-plugin-offline`,

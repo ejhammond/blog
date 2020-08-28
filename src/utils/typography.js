@@ -18,7 +18,7 @@ const codeFontFamily = 'Inconsolata'
 const emphasizedFontFamily = 'Handlee'
 
 const theme = {
-  title: 'TrippHamm',
+  title: 'Hamblog',
   baseFontSize: '20px',
   baseLineHeight: 1.45,
   googleFonts: [

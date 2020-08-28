@@ -3,7 +3,7 @@
   "private": true,
   "description": "A blog powered by Gatsby and Markdown",
   "version": "0.1.0",
-  "author": "Tripp Hammond <tripphamm@gmail.com>",
+  "author": "EJ Hammond <ejhammond@hey.com>",
   "engines": {
     "node": "10.x"
   },
@@ -55,17 +55,18 @@
     "prettier": "^1.17.0",
     "rimraf": "^2.6.3"
   },
-  "homepage": "https://trippstips.com",
+  "homepage": "https://hamblog.com",
   "keywords": [
     "gatsby",
-    "tripphamm",
+    "ejhammond",
+    "hamblog",
     "react"
   ],
   "license": "MIT",
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tripphamm/blog.git"
+    "url": "git+https://github.com/ejhammond/blog.git"
   },
   "scripts": {
     "build": "gatsby build",
