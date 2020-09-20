@@ -1,8 +1,9 @@
 ---
 id: redux
-title: 'My Mental Model: Redux'
+title: 'Redux Minus React'
 date: '2019-06-29T02:18:19.900Z'
-description: My mental model of Redux
+description: 'A truly barebones intro to Redux'
+tags: ['technology', 'javascript', 'redux']
 ---
 
 import { Figure } from '../../../src/components/CaptionedFigure'
@@ -16,20 +17,36 @@ import { Counter } from './Counter'
   <CappedWidthBox maxWidth={300}>
     <FixedAspectRatioBox aspectRatio={2383 / 2500}>
       <img
-        src="https://res.cloudinary.com/tripphamm/image/upload/v1577720577/logos/redux-logo_d1kpyb.svg"
+        src="https://res.cloudinary.com/ejhammond/image/upload/v1577720577/logos/redux-logo_d1kpyb.svg"
         alt="Redux logo"
       />
     </FixedAspectRatioBox>
   </CappedWidthBox>
 </Figure>
 
-## My Mental Model Series
+## Prereqs
 
-_This article is part of the My Mental Model series which seeks to capture my understanding of the programming concepts that I use on a regular basis in a comprehensive way. The goal is for readers to have all of the info that they need in order to reach and to surpass my own understanding of each concept._
+In order to make the most out of this article, readers should have some familiarity with:
+
+- Basic JavaScript syntax
+- "Recent" JavaScript features like [destructuring assignments](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) and [spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+- DOM API's like `getElementById` and `addEventListener`
+
+Prior experience with Redux is not required.
 
 ## Introduction
 
-[Redux](https://github.com/reduxjs/redux) is a popular JavaScript library which is commonly paired together with UI frameworks (like Angular or React) in order to develop complex applications that are scalable and easy to maintain. In this installment of _My Mental Model_ I'll introduce the core concepts of Redux and then we'll build a minimal app with plain HTML/CSS/JS in order to illustrate those concepts in isolation before exploring integrations with UI frameworks (which we'll do in another post).
+[Redux](https://github.com/reduxjs/redux) is a popular JavaScript library which is commonly paired together with UI frameworks (like React) in order to develop complex applications that are scalable and easy to maintain. In this article, I'll introduce the core concepts of Redux and then we'll build a minimal app with plain HTML/CSS/JS in order to illustrate those concepts in isolation. Future articles will explore Redux's integrations with UI frameworks like React.
+
+## UI as a Function of State
+
+If you've heard of Redux before, you may have heard it described as a _state management_ library, so--before we go any further--let's zoom way out and chat about how we use the idea of _state_ in UI development.
+
+In this context, _state_ is a set of data that describes how the UI should look. UI state can describe whether or not a checkbox is checked, the current text inside of a textbox, whether a modal is opened or closed etc.
+
+The idea of stateful UI has been around for a very long time, but the way that we _manage_ state is still evolving and improving rapidly.
+
+![State is transformed into UI via magic](./images/state-magic-ui.png)
 
 ## Redux
 
@@ -48,7 +65,7 @@ It is comprised of 4 basic components:
 
 The terminology may be unfamiliar, but conceptually it's really pretty simple! We have a single place to keep our state (the store), we have a way to indicate to the store that _something happened_ (actions), and we have a way to interpret those actions in order to decide if/how the state should change (the reducer).
 
-If you've used Redux with React before, you may be surprised that we haven't mentioned anything about `connect`, `<Provider>`, `mapStateToProps` etc. That's because those are concepts from the `react-redux` library which provides helpers to integrate Redux with a React app. Redux works perfectly well without these helpers--in fact--we're about to build a simple application with Redux and we're not going to use React at all!
+If you've used Redux with React before, you may be surprised that we haven't mentioned anything about `useMappedState`, `connect`, `<Provider>`, `mapStateToProps` etc. That's because those are concepts from the `react-redux` library which provides helpers to integrate Redux with a React app. Redux works perfectly well without these helpers--in fact--we're about to build a simple application with Redux and we're not going to use React at all!
 
 ## A Minimal Redux App
 
@@ -209,11 +226,11 @@ function createSubtractAction(amount) {
 
 Beautiful! Now we can handle adding or subtracting _any_ amount without needing to manually add more actions or needing to update our reducer.
 
-This pattern of creating helper-functions which generate actions is called the `actionCreator` pattern, and it's so helpful that it's often taught as the primary way to handle actions with Redux! But I want you to keep in mind that our first implementation--the one where our actions were just simple strings--would have worked just fine in this app. There's nothing Redux-specific about the code that we just added; indeed, we haven't even used the Redux library yet! We used our JavaScript skills to come up with a more scalable pattern that uses objects rather than strings and to build helper functions that make our lives easier.
+This pattern of creating helper-functions which generate actions is called the _Action Creator_ pattern, and it's so helpful that it's often taught as the primary way to handle actions with Redux! But I want you to keep in mind that our first implementation--the one where our actions were just simple strings--would have worked just fine in this app. There's nothing Redux-specific about the code that we just added; indeed, we haven't even used the Redux library yet! We used our JavaScript skills to come up with a more scalable pattern that uses objects rather than strings and to build helper functions that make our lives easier.
 
-This is going to be a theme throughout the blog post: most of the perceived "magic" around Redux is actually just handy patterns like this one that folks have devised in order to make their lives easier. Redux itself, isn't involved yet :)
+This is going to be a theme throughout the blog post: most of the perceived "magic" around Redux is actually just handy patterns like this one that folks have devised in order to make their lives easier.
 
-Even though we don't need the `actionCreator` pattern for this app, let's use it anyway so that we're ready to adapt to future feature requirements.
+Even though we don't need the _Action Creator_ pattern for this app, let's use it anyway so that we're ready to adapt to future feature requirements.
 
 Now that we've got our `actions`, let's actually write some real code for the reducer!
 
@@ -221,7 +238,7 @@ Now that we've got our `actions`, let's actually write some real code for the re
 
 We already speculated a little bit about how we might build our reducer, but now we're gonna do it for real!
 
-I'll use a switch statement rather than `if/else`, but you can write yours however you want.
+Remember, the reducer is a function which is supplied with the current state of the app and an _action_ (like the ones we just described) and it must return the _next_ state of the app.
 
 ```html
 <script>
@@ -229,13 +246,12 @@ I'll use a switch statement rather than `if/else`, but you can write yours howev
 
   const initialState = { count: 0 }
 
-  function reduce(currentState, action) {
-    // Redux asks us for the initial state
-    // by passing in `undefined` as the currentState
-    if (currentState === undefined) {
-      return initialState
-    }
-
+  /*
+  when our reducer runs for the very first time,
+  `currentState` will be undefined.
+  in that scenario, we'll use a pre-determined `initialState`
+  */
+  function reduce(currentState = initialState, action) {
     switch (action.type) {
       case 'ADD':
         return {
@@ -260,7 +276,9 @@ This should be pretty straight-forward, but there are a few parts that might not
 
 #### Initial State
 
-The trick here is that when Redux first initializes, it is going to call our reducer function with `undefined` as the `currentState` in order to figure out the first state of the app. So we handle that by saying "if currentState is undefined, pass back the initialState".
+The trick here is that when Redux first initializes, it is going to call our reducer function with `undefined` as the `currentState` and a special "init" action (e.g. `{ type: '__REDUX_INIT__' }`) in order to figure out the first state of the app. Since `currentState` is `undefined`, our reducer function will use `initialState` as the value for `currentState`. Next, the reducer will run through our switch statement to see how to handle the special "init" action from Redux. Since our switch statement doesn't describe any way of handling the special "init" action, we'll fall through to the default case and return the `initialState`.
+
+This is kind of a convoluted little dance to get the initial state, but it's important so that our app starts off with the proper initial values.
 
 #### How Redux Detects a Change
 
@@ -349,30 +367,34 @@ The takeaway:
 
 Before we move on, let's make one more change to our reducer so that we're ready to handle new features in the future.
 
-Let's say that as time goes on we decide to add a new feature to our counter that lets users change the theme color from light-mode to dark-mode. Now we've got some more state to track. Rather than just `{ count: number }` we have `{ count: number, theme: 'dark' | 'light' }`. Let's imagine that we've already written a neat actionCreator to handle this feature, and we just need to update the reducer.
+Let's say that as time goes on we decide to add a new feature to our counter that lets users change the theme color from light-mode to dark-mode.
+
+Now we've got some more state to track. Rather than just `{ count: number }` we have `{ count: number, theme: 'dark' | 'light' }`. Let's imagine that we've already written a neat actionCreator to handle this feature, and we just need to update the reducer.
 
 ```js
 const initialState = { count: 0, theme: 'light' }
 
-function reduce(currentState, action) {
-  if (currentState === undefined) {
-    return initialState
-  }
-
+function reduce(currentState = initialState, action) {
   switch (action.type) {
     case 'ADD':
       return {
+        // keep the current theme the same
         theme: currentState.theme,
+        // update the count
         count: currentState.count + action.amount,
       }
     case 'SUBTRACT':
       return {
+        // keep the current theme the same
         theme: currentState.theme,
+        // update the count
         count: currentState.count - action.amount,
       }
     case 'CHANGE_THEME':
       return {
+        // keep the current count the same
         count: currentState.count,
+        // update the theme
         theme: action.newTheme,
       }
     default:
@@ -385,34 +407,30 @@ Not so bad. But notice that we had to add an extra line to each of the different
 
 Okay, but what happens when the app gets even more complex and we need to keep track of even more state? Are we going to need to add an extra line to every `case` in our reducer for every new state that we want to track? That would be a pain.
 
-Instead, let's make use of a neat JavaScript feature which allows us to clone _all of the keys_ from one object into another. This way, in each of our `case`s we can say: clone all of the current values, and then change this one thing. Here's what that might look like:
+Instead, let's make use of a neat JavaScript feature which allows us to clone _all of the values_ from one object into another. This way, in each of our `case`s we can say: clone all of the current values, and then change this one thing. Here's what that might look like:
 
 ```js
 const initialState = { count: 0, theme: 'light' }
 
-function reduce(currentState, action) {
-  if (currentState === undefined) {
-    return initialState
-  }
-
+function reduce(currentState = initialState, action) {
   switch (action.type) {
     case 'ADD':
       return {
-        // clone currentState
+        // clone all values from currentState
         ...currentState,
         // overwrite the count with the new value
         count: currentState.count + action.amount,
       }
     case 'SUBTRACT':
       return {
-        // clone currentState
+        // clone all values from currentState
         ...currentState,
         // overwrite the count with the new value
         count: currentState.count - action.amount,
       }
     case 'CHANGE_THEME':
       return {
-        // clone currentState
+        // clone all values from currentState
         ...currentState,
         // overwrite the theme with the new value
         theme: action.newTheme,
@@ -476,7 +494,7 @@ Let's take a moment to recap what we've done so far.
 Now, when we click those buttons, data is flowing through our app!
 
 1. We click a button
-2. That dispatches an action to the store
+2. An action is sent to the store
 3. The store uses the `reducer` to determine the next state
 4. The store broadcasts that the state changed
 
@@ -502,7 +520,7 @@ We'll use the `subscribe` function that's exposed by the `store` in order to lis
 </script>
 ```
 
-And we're done! [Here's a link to the full code](https://gist.github.com/tripphamm/f340d92dec153f4ca5f2a31a58be9ce4).
+And we're done! [Check out the full code in action in CodeSandbox](https://codesandbox.io/s/redux-minus-react-edmfu).
 
 ## Wrap Up
 

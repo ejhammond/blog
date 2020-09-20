@@ -5,6 +5,7 @@ import Bio from '../components/bio'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import { rhythm } from '../utils/typography'
+import { Tag } from '../components/Tag'
 
 class BlogIndex extends React.Component {
   render() {
@@ -32,6 +33,17 @@ class BlogIndex extends React.Component {
                   {title}
                 </Link>
               </h3>
+              {Array.isArray(node.frontmatter.tags) && (
+                <ul
+                  style={{ listStyleType: 'none', margin: 0, display: 'flex' }}
+                >
+                  {node.frontmatter.tags.map(tag => (
+                    <li style={{ margin: '0 4px 0 0' }}>
+                      <Tag>{tag}</Tag>
+                    </li>
+                  ))}
+                </ul>
+              )}
               <small>{node.frontmatter.date}</small>
               <p
                 dangerouslySetInnerHTML={{
@@ -66,6 +78,7 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            tags
           }
         }
       }
