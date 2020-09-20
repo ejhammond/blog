@@ -55,11 +55,11 @@
     "prettier": "^1.17.0",
     "rimraf": "^2.6.3"
   },
-  "homepage": "https://hamblog.com",
+  "homepage": "https://ayhota.com",
   "keywords": [
     "gatsby",
     "ejhammond",
-    "hamblog",
+    "ayhota",
     "react"
   ],
   "license": "MIT",

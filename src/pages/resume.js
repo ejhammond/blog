@@ -77,7 +77,7 @@ class Resume extends React.Component {
 
           <p>
             Sometimes I write about tech topics on my blog,{' '}
-            <a href="https://hamblog.com">Hamblog</a>.
+            <a href="https://ayhota.com">Ayhota</a>.
           </p>
         </section>
         <section>

@@ -18,7 +18,7 @@ const codeFontFamily = 'Inconsolata'
 const emphasizedFontFamily = 'Handlee'
 
 const theme = {
-  title: 'Hamblog',
+  title: 'Ayhota',
   baseFontSize: '20px',
   baseLineHeight: 1.45,
   googleFonts: [

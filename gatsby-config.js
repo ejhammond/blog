@@ -1,9 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `Hamblog`,
+    title: `Ayhota`,
     author: `EJ Hammond`,
     description: `Dev stuff`,
-    siteUrl: `https://hamblog.com/`,
+    siteUrl: `https://ayhota.com/`,
     social: {
       twitter: `ejhammond`,
     },
@@ -63,13 +63,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Hamblog`,
-        short_name: `Hamblog`,
+        name: `Ayhota`,
+        short_name: `Ayhota`,
         start_url: `/`,
         background_color: `#ececec`,
         theme_color: `#385170`,
         display: `minimal-ui`,
-        icon: `content/assets/hamblog-logo-alt.png`,
+        icon: `content/assets/ayhota-logo.png`,
       },
     },
     `gatsby-plugin-offline`,
