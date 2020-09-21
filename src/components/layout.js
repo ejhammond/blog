@@ -41,7 +41,7 @@ class Layout extends React.Component {
                 marginBottom: 0,
               }}
             />
-            {title}
+            {title} | Blog
           </Link>
         </h1>
       );
