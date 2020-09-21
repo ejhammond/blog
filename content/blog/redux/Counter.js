@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 export function Counter() {
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = React.useState(0);
 
   return (
     <div
@@ -25,5 +25,5 @@ export function Counter() {
         +
       </button>
     </div>
-  )
+  );
 }

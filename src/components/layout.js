@@ -1,15 +1,15 @@
-import React from 'react'
-import { Link } from 'gatsby'
+import React from 'react';
+import { Link } from 'gatsby';
 
-import { rhythm, scale } from '../utils/typography'
-import { primary, textKnockout } from '../utils/theme-colors'
-import logo from '../../content/assets/ayhota-logo.png'
+import { rhythm, scale } from '../utils/typography';
+import { primary, textKnockout } from '../utils/theme-colors';
+import logo from '../../content/assets/ayhota-logo.png';
 
 class Layout extends React.Component {
   render() {
-    const { location, title, children } = this.props
-    const rootPath = `${__PATH_PREFIX__}/`
-    let header
+    const { location, title, children } = this.props;
+    const rootPath = `${__PATH_PREFIX__}/`;
+    let header;
 
     if (location.pathname === rootPath) {
       header = (
@@ -44,7 +44,7 @@ class Layout extends React.Component {
             {title}
           </Link>
         </h1>
-      )
+      );
     } else {
       header = (
         <h3
@@ -77,7 +77,7 @@ class Layout extends React.Component {
             {title}
           </Link>
         </h3>
-      )
+      );
     }
     return (
       <>
@@ -98,9 +98,7 @@ class Layout extends React.Component {
             maxWidth: rhythm(32),
           }}
         >
-          <main
-            style={{ paddingLeft: rhythm(3 / 4), paddingRight: rhythm(3 / 4) }}
-          >
+          <main style={{ paddingLeft: rhythm(3 / 4), paddingRight: rhythm(3 / 4) }}>
             {children}
           </main>
           <footer
@@ -119,8 +117,8 @@ class Layout extends React.Component {
           </footer>
         </div>
       </>
-    )
+    );
   }
 }
 
-export default Layout
+export default Layout;

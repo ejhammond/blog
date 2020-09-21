@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { responsive } from '../responsive-system'
+import * as React from 'react';
+import { responsive } from '../responsive-system';
 
 const FixedAspectRatioBox = responsive(
   React.forwardRef(function FixedAspectRatioBox(props, ref) {
@@ -8,19 +8,17 @@ const FixedAspectRatioBox = responsive(
 
       children,
       ...baseProps
-    } = props
+    } = props;
 
     return (
       <FixedAspectRatioBoxBase ref={ref} {...baseProps}>
-        <FixedAspectRatioBoxContent {...contentProps}>
-          {children}
-        </FixedAspectRatioBoxContent>
+        <FixedAspectRatioBoxContent {...contentProps}>{children}</FixedAspectRatioBoxContent>
       </FixedAspectRatioBoxBase>
-    )
-  })
-)
+    );
+  }),
+);
 
-export { FixedAspectRatioBox }
+export { FixedAspectRatioBox };
 
 //
 // ─── FIXED ASPECT RATIO BOX BASE ────────────────────────────────────────────────
@@ -33,7 +31,7 @@ const FixedAspectRatioBoxBase = React.forwardRef((props, ref) => {
     className,
     style = {},
     ...otherProps
-  } = props
+  } = props;
 
   return (
     <div
@@ -47,19 +45,19 @@ const FixedAspectRatioBoxBase = React.forwardRef((props, ref) => {
       }}
       {...otherProps}
     />
-  )
-})
+  );
+});
 
-FixedAspectRatioBoxBase.displayName = 'FixedAspectRatioBoxBase'
+FixedAspectRatioBoxBase.displayName = 'FixedAspectRatioBoxBase';
 
-export { FixedAspectRatioBoxBase }
+export { FixedAspectRatioBoxBase };
 
 //
 // ─── FIXED ASPECT RATIO BOX CONTENT ─────────────────────────────────────────────
 //
 
 const FixedAspectRatioBoxContent = React.forwardRef((props, ref) => {
-  const { style = {}, ...otherProps } = props
+  const { style = {}, ...otherProps } = props;
 
   return (
     <div
@@ -74,49 +72,39 @@ const FixedAspectRatioBoxContent = React.forwardRef((props, ref) => {
       }}
       {...otherProps}
     />
-  )
-})
+  );
+});
 
-FixedAspectRatioBoxContent.displayName = 'FixedAspectRatioBoxContent'
+FixedAspectRatioBoxContent.displayName = 'FixedAspectRatioBoxContent';
 
-export { FixedAspectRatioBoxContent }
+export { FixedAspectRatioBoxContent };
 
 //
 // ─── CAPPED WIDTH BOX ───────────────────────────────────────────────────────────
 //
 
 const CappedWidthBox = React.forwardRef((props, ref) => {
-  const { maxWidth, style = {}, ...otherProps } = props
+  const { maxWidth, style = {}, ...otherProps } = props;
 
-  return (
-    <div
-      ref={ref}
-      style={{ maxWidth, width: '100%', ...style }}
-      {...otherProps}
-    />
-  )
-})
+  return <div ref={ref} style={{ maxWidth, width: '100%', ...style }} {...otherProps} />;
+});
 
-CappedWidthBox.displayName = 'CappedWidthBox'
+CappedWidthBox.displayName = 'CappedWidthBox';
 
-export { CappedWidthBox }
+export { CappedWidthBox };
 
 //
 // ─── CAPPED HEIGHT BOX ──────────────────────────────────────────────────────────
 //
 
 const CappedHeightBox = React.forwardRef((props, ref) => {
-  const { maxHeight, style = {}, ...otherProps } = props
+  const { maxHeight, style = {}, ...otherProps } = props;
 
   return (
-    <div
-      ref={ref}
-      style={{ maxHeight, height: '100%', width: '100%', ...style }}
-      {...otherProps}
-    />
-  )
-})
+    <div ref={ref} style={{ maxHeight, height: '100%', width: '100%', ...style }} {...otherProps} />
+  );
+});
 
-CappedHeightBox.displayName = 'CappedHeightBox'
+CappedHeightBox.displayName = 'CappedHeightBox';
 
-export { CappedHeightBox }
+export { CappedHeightBox };

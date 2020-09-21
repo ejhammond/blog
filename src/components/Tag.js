@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { primary, textKnockout } from '../utils/theme-colors'
+import * as React from 'react';
+import { primary, textKnockout } from '../utils/theme-colors';
 
 export function Tag({ children, style: delegatedStyle, ...delegated }) {
   return (
@@ -16,5 +16,5 @@ export function Tag({ children, style: delegatedStyle, ...delegated }) {
     >
       {children}
     </div>
-  )
+  );
 }

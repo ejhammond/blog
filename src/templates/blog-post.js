@@ -1,11 +1,11 @@
-import React from 'react'
-import { Link, graphql } from 'gatsby'
-import { MDXRenderer } from 'gatsby-mdx'
+import React from 'react';
+import { Link, graphql } from 'gatsby';
+import { MDXRenderer } from 'gatsby-mdx';
 
-import Bio from '../components/bio'
-import Layout from '../components/layout'
-import SEO from '../components/seo'
-import { rhythm, scale } from '../utils/typography'
+import Bio from '../components/bio';
+import Layout from '../components/layout';
+import SEO from '../components/seo';
+import { rhythm, scale } from '../utils/typography';
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
@@ -29,18 +29,18 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
 
-const GITHUB_USERNAME = 'ejhammond'
-const GITHUB_REPO_NAME = 'blog'
+const GITHUB_USERNAME = 'ejhammond';
+const GITHUB_REPO_NAME = 'blog';
 
 class BlogPostTemplate extends React.Component {
   render() {
-    const post = this.props.data.mdx
-    const siteTitle = this.props.data.site.siteMetadata.title
-    const { previous, next } = this.props.pageContext
+    const post = this.props.data.mdx;
+    const siteTitle = this.props.data.site.siteMetadata.title;
+    const { previous, next } = this.props.pageContext;
 
-    const editOnGitHubURL = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/edit/master/content/blog/${post.frontmatter.id}/index.mdx`
+    const editOnGitHubURL = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/edit/master/content/blog/${post.frontmatter.id}/index.mdx`;
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -59,9 +59,7 @@ class BlogPostTemplate extends React.Component {
         >
           {post.frontmatter.date}
         </p>
-        <MDXRenderer frontmatter={post.frontmatter}>
-          {post.code.body}
-        </MDXRenderer>
+        <MDXRenderer frontmatter={post.frontmatter}>{post.code.body}</MDXRenderer>
         <hr
           style={{
             marginBottom: rhythm(1),
@@ -97,8 +95,8 @@ class BlogPostTemplate extends React.Component {
           </li>
         </ul>
       </Layout>
-    )
+    );
   }
 }
 
-export default BlogPostTemplate
+export default BlogPostTemplate;

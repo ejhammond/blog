@@ -1,21 +1,14 @@
-import Typography from 'typography'
-import Color from 'color'
+import Typography from 'typography';
+import Color from 'color';
 
-import {
-  primary,
-  secondary,
-  textPrimary,
-  textMuted,
-  border,
-} from './theme-colors'
+import { secondary, textPrimary, textMuted, border } from './theme-colors';
 
-import gray from 'gray-percentage'
-import { MOBILE_MEDIA_QUERY } from 'typography-breakpoint-constants'
-import verticalRhythm from 'compass-vertical-rhythm'
+import { MOBILE_MEDIA_QUERY } from 'typography-breakpoint-constants';
+import verticalRhythm from 'compass-vertical-rhythm';
 
-const baseFontFamily = 'Montserrat'
-const codeFontFamily = 'Inconsolata'
-const emphasizedFontFamily = 'Handlee'
+const baseFontFamily = 'Montserrat';
+const codeFontFamily = 'Inconsolata';
+const emphasizedFontFamily = 'Handlee';
 
 const theme = {
   title: 'Ayhota',
@@ -46,7 +39,7 @@ const theme = {
     const vr = verticalRhythm({
       baseFontSize: '17px',
       baseLineHeight: '24.65px',
-    })
+    });
 
     return {
       a: {
@@ -54,9 +47,7 @@ const theme = {
         textDecoration: 'none',
       },
       'a:hover,a:active': {
-        color: Color(secondary)
-          .lighten(0.25)
-          .toString(),
+        color: Color(secondary).lighten(0.25).toString(),
       },
       'h1,h2,h3,h4,h5,h6': {
         marginTop: rhythm(1.5),
@@ -112,17 +103,17 @@ const theme = {
           ...vr.establishBaseline(),
         },
       },
-    }
+    };
   },
-}
+};
 
-const typography = new Typography(theme)
+const typography = new Typography(theme);
 
 // Hot reload typography in development.
 if (process.env.NODE_ENV !== `production`) {
-  typography.injectStyles()
+  typography.injectStyles();
 }
 
-export default typography
-export const rhythm = typography.rhythm
-export const scale = typography.scale
+export default typography;
+export const rhythm = typography.rhythm;
+export const scale = typography.scale;

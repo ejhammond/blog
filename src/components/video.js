@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-export const Image = props => {
-  const { figureProps = {}, captionProps = {}, caption, ...imgProps } = props
+export const Image = (props) => {
+  const { figureProps = {}, captionProps = {}, caption, ...imgProps } = props;
 
-  const { style: figureStyle = {}, ...otherFigureProps } = figureProps
+  const { style: figureStyle = {}, ...otherFigureProps } = figureProps;
 
-  const { alt, style: imgStyle = {}, ...otherImgProps } = imgProps
+  const { alt, style: imgStyle = {}, ...otherImgProps } = imgProps;
 
-  const { captionStyle = {}, ...otherCaptionProps } = captionProps
+  const { captionStyle = {}, ...otherCaptionProps } = captionProps;
 
   return (
     <figure
@@ -19,11 +19,7 @@ export const Image = props => {
       }}
       {...otherFigureProps}
     >
-      <img
-        style={{ marginBottom: 0, ...imgStyle }}
-        alt={alt || caption}
-        {...otherImgProps}
-      />
+      <img style={{ marginBottom: 0, ...imgStyle }} alt={alt || caption} {...otherImgProps} />
       <figcaption
         style={{ fontSize: '0.8rem', fontStyle: 'italic', ...captionStyle }}
         {...otherCaptionProps}
@@ -31,5 +27,5 @@ export const Image = props => {
         {caption}
       </figcaption>
     </figure>
-  )
-}
+  );
+};

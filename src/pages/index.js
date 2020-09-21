@@ -1,27 +1,24 @@
-import React from 'react'
-import { Link, graphql } from 'gatsby'
+import React from 'react';
+import { Link, graphql } from 'gatsby';
 
-import Bio from '../components/bio'
-import Layout from '../components/layout'
-import SEO from '../components/seo'
-import { rhythm } from '../utils/typography'
-import { Tag } from '../components/Tag'
+import Bio from '../components/bio';
+import Layout from '../components/layout';
+import SEO from '../components/seo';
+import { rhythm } from '../utils/typography';
+import { Tag } from '../components/Tag';
 
 class BlogIndex extends React.Component {
   render() {
-    const { data } = this.props
-    const siteTitle = data.site.siteMetadata.title
-    const posts = data.allMdx.edges
+    const { data } = this.props;
+    const siteTitle = data.site.siteMetadata.title;
+    const posts = data.allMdx.edges;
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO
-          title="All posts"
-          keywords={[`blog`, `ejhammond`, `ayhota`, `javascript`, `react`]}
-        />
+        <SEO title="All posts" keywords={[`blog`, `ejhammond`, `ayhota`, `javascript`, `react`]} />
         <Bio />
         {posts.map(({ node }) => {
-          const title = node.frontmatter.title || node.fields.slug
+          const title = node.frontmatter.title || node.fields.slug;
           return (
             <div key={node.fields.slug}>
               <h3
@@ -34,11 +31,9 @@ class BlogIndex extends React.Component {
                 </Link>
               </h3>
               {Array.isArray(node.frontmatter.tags) && (
-                <ul
-                  style={{ listStyleType: 'none', margin: 0, display: 'flex' }}
-                >
-                  {node.frontmatter.tags.map(tag => (
-                    <li style={{ margin: '0 4px 0 0' }}>
+                <ul style={{ listStyleType: 'none', margin: 0, display: 'flex' }}>
+                  {node.frontmatter.tags.map((tag) => (
+                    <li key={tag} style={{ margin: '0 4px 0 0' }}>
                       <Tag>{tag}</Tag>
                     </li>
                   ))}
@@ -51,14 +46,14 @@ class BlogIndex extends React.Component {
                 }}
               />
             </div>
-          )
+          );
         })}
       </Layout>
-    )
+    );
   }
 }
 
-export default BlogIndex
+export default BlogIndex;
 
 export const pageQuery = graphql`
   query {
@@ -84,4 +79,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

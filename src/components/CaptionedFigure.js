@@ -1,8 +1,8 @@
-import React from 'react'
-import { responsive } from '../responsive-system'
+import React from 'react';
+import { responsive } from '../responsive-system';
 
-export const Figure = responsive(props => {
-  const { style = {}, ...otherProps } = props
+export const Figure = responsive((props) => {
+  const { style = {}, ...otherProps } = props;
 
   return (
     <figure
@@ -14,16 +14,13 @@ export const Figure = responsive(props => {
       }}
       {...otherProps}
     />
-  )
-})
+  );
+});
 
-export const Caption = props => {
-  const { style = {}, ...otherProps } = props
+export const Caption = (props) => {
+  const { style = {}, ...otherProps } = props;
 
   return (
-    <figcaption
-      style={{ fontSize: '0.8rem', fontStyle: 'italic', ...style }}
-      {...otherProps}
-    />
-  )
-}
+    <figcaption style={{ fontSize: '0.8rem', fontStyle: 'italic', ...style }} {...otherProps} />
+  );
+};
