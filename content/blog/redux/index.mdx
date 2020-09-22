@@ -364,7 +364,7 @@ function reduce(currentState, action) {
 
 <ErrorMessage title="Redux Error">The reducer must not mutate the `currentState`</ErrorMessage>
 
-This reducer is much simpler, but it's actually quite broken for 2 reasons actually.
+This reducer is much simpler, but it's actually quite broken for 2 reasons.
 
 The first reason is that Redux forbids _mutation_ of the `currentState`. Remember that `currentState` refers to the values that are currently being used throughout the app; changing them at this stage in Redux's lifecycle can cause nasty little bugs. Instead, you should copy the `currentState`'s values into a new object and make your updates on the copy instead. We'll talk about common ways of copying values shortly.
 
