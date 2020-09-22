@@ -388,7 +388,7 @@ That's why returning `currentState` from the reducer signals to Redux that nothi
 
 This referential comparison is **super fast**, and it stays super fast even as your app gets more and more complex. Conversely, if Redux took the time to compare every single value in your state, it would get slower and slower as your app grew.
 
-So, now that we know that Redux uses a `referential comparison` in order to detect changes. It's clear why we always return a new object when the state changes, and we return `currentState` when the state didn't change.
+So, now that we know that Redux uses a referential comparison in order to detect changes. It's clear why we always return a new object when the state changes, and we return `currentState` when the state didn't change.
 
 Here's an annotated version of our reducer:
 
