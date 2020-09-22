@@ -1,9 +1,21 @@
 import React from 'react';
 import { Link } from 'gatsby';
+import { MDXProvider } from '@mdx-js/react';
 
 import { rhythm, scale } from '../utils/typography';
 import { primary, textKnockout } from '../utils/theme-colors';
 import logo from '../../content/assets/ayhota-logo.png';
+import { Figure } from './CaptionedFigure';
+import { ErrorMessage } from './ErrorMessage';
+import { FixedAspectRatioBox, CappedWidthBox, CappedHeightBox } from './FixedAspectRatioBox';
+
+const shortcodes = {
+  Figure,
+  ErrorMessage,
+  FixedAspectRatioBox,
+  CappedHeightBox,
+  CappedWidthBox,
+};
 
 class Layout extends React.Component {
   render() {
@@ -99,7 +111,7 @@ class Layout extends React.Component {
           }}
         >
           <main style={{ paddingLeft: rhythm(3 / 4), paddingRight: rhythm(3 / 4) }}>
-            {children}
+            <MDXProvider components={shortcodes}>{children}</MDXProvider>
           </main>
           <footer
             style={{
@@ -110,11 +122,7 @@ class Layout extends React.Component {
 
               marginTop: rhythm(1),
             }}
-          >
-            © {new Date().getFullYear()}, Built with
-            {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </footer>
+          ></footer>
         </div>
       </>
     );

@@ -1,15 +1,10 @@
 ---
 id: react-redux
-title: 'My Mental Model: React Redux'
-date: '2019-06-30T02:18:19.900Z'
-description: Understanding how React Redux triggers re-renders in your application
+title: 'React Redux'
+date: '2020-09-22T02:18:19.900Z'
+description: 'Part 2 of the Redux series: Explores how React Redux helps to integrate Redux with React apps'
+previous: 'redux'
 ---
-
-import { Figure } from '../../../src/components/CaptionedFigure'
-import {
-  FixedAspectRatioBox,
-  CappedWidthBox,
-} from '../../../src/components/FixedAspectRatioBox'
 
 <Figure>
   <div
@@ -28,11 +23,7 @@ import {
         />
       </FixedAspectRatioBox>
     </CappedWidthBox>
-    <span
-      role="img"
-      aria-label="heart emoji"
-      style={{ fontSize: '3em', flexBasix: '20%' }}
-    >
+    <span role="img" aria-label="heart emoji" style={{ fontSize: '3em', flexBasix: '20%' }}>
       💖
     </span>
     <CappedWidthBox maxWidth={250} style={{ flexBasis: '40%' }}>
@@ -45,10 +36,6 @@ import {
     </CappedWidthBox>
   </div>
 </Figure>
-
-## My Mental Model Series
-
-_This article is part of the My Mental Model series which seeks to capture my understanding of the programming concepts that I use on a regular basis in a comprehensive way. The goal is for readers to have all of the info that they need in order to reach and to surpass my own understanding of each concept._
 
 ## Introduction
 
@@ -159,11 +146,11 @@ Every time Redux broadcasts that a piece of state changed, all of your `connect`
 ```js
 // broken pseudocode for connect and useSelector
 
-const currentMappedState = mapState(currentState)
-const newMappedState = mapState(newState)
+const currentMappedState = mapState(currentState);
+const newMappedState = mapState(newState);
 
 if (currentMappedState !== newMappedState) {
-  forceComponentToReRender()
+  forceComponentToReRender();
 }
 ```
 
@@ -172,13 +159,13 @@ it is necessary for `connect` and `useSelector` to go a bit deeper:
 ```js
 // pseudocode for connect and useSelector
 
-const currentMappedState = mapState(currentState)
-const newMappedState = mapState(newState)
+const currentMappedState = mapState(currentState);
+const newMappedState = mapState(newState);
 
 for (key of newMappedState) {
   if (currentMappedState[key] !== newMappedState[key]) {
-    forceComponentToReRender()
-    return
+    forceComponentToReRender();
+    return;
   }
 }
 ```
@@ -239,9 +226,9 @@ Even thought the root-state-object changed, and Redux would broadcast the state 
 e.g. if you had a function that did this:
 
 ```js
-mapStateToProps(state => {
-  bar: state.foo.bar
-})
+mapStateToProps((state) => {
+  bar: state.foo.bar;
+});
 ```
 
 it would _not_ re-render when `foo.bar.baz` changed because the ref to `bar` didn't get updated!

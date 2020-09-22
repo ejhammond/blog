@@ -39,7 +39,6 @@ class BlogPostTemplate extends React.Component {
     const post = this.props.data.mdx;
     const siteTitle = this.props.data.site.siteMetadata.title;
     const { previous, next } = this.props.pageContext;
-
     const editOnGitHubURL = `https://github.com/${GITHUB_USERNAME}/${GITHUB_REPO_NAME}/edit/master/content/blog/${post.frontmatter.id}/index.mdx`;
 
     return (

@@ -1,14 +1,12 @@
 ---
-id: redux
+id: 'redux'
 title: 'Redux Minus React'
 date: '2020-09-21T02:18:19.900Z'
 description: 'A truly barebones intro to Redux'
 tags: ['technology', 'javascript', 'redux']
+next: 'react-redux'
 ---
 
-import { Figure } from '../../../src/components/CaptionedFigure';
-import { FixedAspectRatioBox, CappedWidthBox } from '../../../src/components/FixedAspectRatioBox';
-import { ErrorMessage } from '../../../src/components/ErrorMessage';
 import { Counter } from './Counter';
 
 <Figure>
@@ -123,7 +121,7 @@ In the Redux world, the reducer function has a very important job: it must deter
 
 At a high level, you can think of the reducer like this:
 
-![State "N" and an Action go in to the Reducer and State "N+1" comes out](./images/reducer-generic.png)
+![State N and an Action go in to the Reducer and State N+1 comes out](./images/reducer-generic.png)
 
 We input the current state and some _action_ that just happened, and the reducer determines what (if anything) needs to change.
 
@@ -147,7 +145,7 @@ Again, we haven't written the reducer function yet, but we know that whatever we
 
 So, how about `action = 'ADD'`?
 
-![An object containing the key, count, with the value, 0, is combined with the string, "ADD", via the Reducer which produces an object with the key, count, with the value, 1](./images/reducer-example-2.png)
+![An object containing the key, count, with the value, 0, is combined with the string, ADD, via the Reducer which produces an object with the key, count, with the value, 1](./images/reducer-example-2.png)
 
 That'll work! It's not too much of a stretch to conceive of a theoretical reducer function that could take `{ count: 0 }` + `"ADD"` and output `{ count: 1 }`.
 

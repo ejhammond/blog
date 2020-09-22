@@ -16,7 +16,7 @@ class BlogIndex extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" keywords={[`blog`, `ejhammond`, `ayhota`, `javascript`, `react`]} />
-        <Bio />
+        <h2>Posts</h2>
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug;
           return (
@@ -48,6 +48,8 @@ class BlogIndex extends React.Component {
             </div>
           );
         })}
+        <hr />
+        <Bio />
       </Layout>
     );
   }

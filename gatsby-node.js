@@ -15,7 +15,10 @@ exports.createPages = ({ graphql, actions }) => {
                 slug
               }
               frontmatter {
+                id
                 title
+                next
+                previous
               }
             }
           }
@@ -29,18 +32,22 @@ exports.createPages = ({ graphql, actions }) => {
 
     // Create blog posts pages.
     const posts = result.data.allMdx.edges;
+    const postsMap = posts.reduce((acc, p) => {
+      acc[p.node.frontmatter.id] = p.node;
+      return acc;
+    }, {});
 
-    posts.forEach((post, index) => {
-      const previous = index === posts.length - 1 ? null : posts[index + 1].node;
-      const next = index === 0 ? null : posts[index - 1].node;
-
+    console.log(Object.keys(postsMap));
+    posts.forEach((post) => {
       createPage({
         path: post.node.fields.slug,
         component: blogPost,
         context: {
           slug: post.node.fields.slug,
-          previous,
-          next,
+          next: post.node.frontmatter.next ? postsMap[post.node.frontmatter.next] : null,
+          previous: post.node.frontmatter.previous
+            ? postsMap[post.node.frontmatter.previous]
+            : null,
         },
       });
     });
