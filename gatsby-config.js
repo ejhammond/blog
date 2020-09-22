@@ -70,7 +70,7 @@ module.exports = {
         theme_color: `#385170`,
         display: `minimal-ui`,
         icon: `content/assets/ayhota-logo.png`,
-        icon_options: `any maskable`,
+        icon_options: { purpose: `any maskable` },
       },
     },
     `gatsby-plugin-offline`,
