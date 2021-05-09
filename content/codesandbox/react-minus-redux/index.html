@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Redux Minus React</title>
+  </head>
+  <body>
+    <div
+      style="
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+      "
+    >
+      <button id="subtract-ten-button">-10</button>
+      <button id="subtract-one-button">-1</button>
+      <div id="count-display">0</div>
+      <button id="add-one-button">+1</button>
+      <button id="add-ten-button">+10</button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.js"></script>
+    <script>
+      /*
+      Action Creators
+
+      Helper-functions that save some keystrokes...
+      ...when creating many similar actions
+
+      In this case, we want to create multiple different "Add"-type actions...
+      ...each of which add a different amount
+      */
+
+      function createAddAction(amount) {
+        return {
+          type: 'ADD',
+          amount,
+        }
+      }
+
+      function createSubtractAction(amount) {
+        return {
+          type: 'SUBTRACT',
+          amount,
+        }
+      }
+
+      /*
+      Reducer (aka the getNextState function)
+
+      A function that takes 2 inputs:
+      1. the current state of the app
+      2. an action
+      ...and produces 1 output:
+      1. the next state of the app
+      */
+
+      const initialState = {
+        count: 0,
+      }
+
+      function reduce(currentState = initialState, action) {
+        console.log(action)
+        switch (action.type) {
+          case 'ADD':
+            return {
+              ...currentState,
+              count: currentState.count + action.amount,
+            }
+          case 'SUBTRACT':
+            return {
+              ...currentState,
+              count: currentState.count - action.amount,
+            }
+          default:
+            return currentState
+        }
+      }
+
+      /*
+      Store
+
+      The central place where we keep our app's state
+
+      It receives actions and uses the reducer...
+      ...in order to determine the next state of the app
+      */
+      const store = Redux.createStore(reduce)
+
+      /*
+      Renderer
+
+      The Renderer's job is to look at the state of the app...
+      ...and to update the DOM so that it reflects the given state
+
+      This is the part that React, Vue, Svelte + friends handle behind the scenes
+
+      Since we're not using a UI Framework, we'll manually create our Renderer
+      */
+
+      function render(state) {
+        document.getElementById('count-display').innerText = state.count
+      }
+
+      // call render every time the state changes
+      store.subscribe(() => {
+        const stateSnapshot = store.getState()
+
+        console.log('state changed', stateSnapshot)
+
+        render(stateSnapshot)
+      })
+
+      /*
+      App
+
+      This is the "app" code
+
+      It ties the UI elements (buttons) together...
+      ...with our actions
+      */
+
+      document
+        .getElementById('add-one-button')
+        .addEventListener('click', () => {
+          store.dispatch(createAddAction(1))
+        })
+
+      document
+        .getElementById('add-ten-button')
+        .addEventListener('click', () => {
+          store.dispatch(createAddAction(10))
+        })
+
+      document
+        .getElementById('subtract-one-button')
+        .addEventListener('click', () => {
+          store.dispatch(createSubtractAction(1))
+        })
+
+      document
+        .getElementById('subtract-ten-button')
+        .addEventListener('click', () => {
+          store.dispatch(createSubtractAction(10))
+        })
+    </script>
+  </body>
+</html>

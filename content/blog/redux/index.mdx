@@ -205,9 +205,9 @@ function reduce(currentState, action) {
 }
 ```
 
-That would work, but now we need to duplicate the code for incrementing. Instead, let's leverage the fact that (in this thought experiment) actions can be whatever we want.
+That would work, but now we need to duplicate the code for incrementing. If we added a +5 button or a +20 button, we'd need to duplicate that code again and again. Instead, let's re-work our actions so that we don't have to repeat ourselves.
 
-Rather than passing a string like `"ADD"` or `"ADD_10"`, let's pass an object that indicates both the _kind_ of the action **and** the amount that we want to add.
+Rather than passing a string like `"ADD"` or `"ADD_10"`, we could use an object like this:
 
 ```ts
 // pseudo-code
@@ -253,7 +253,7 @@ Before we jump back to our simple version of the app, I'd like to make one more 
 
 #### Action Creators
 
-Now that we're using proper Redux-approved actions, our code looks somethingl ike this:
+Using objects has simplified our reducer code by allowing us to write code for just 2 cases ("Add" and "Subtract") rather than writing code for every possible amount that you might need to add/subtract. That's great, but we still end up repeating ourselves a lot when it comes to defining our actions themselves. Take a look:
 
 ```js
 const ADD_1_ACTION = { type: 'ADD', amount: 1 };
@@ -264,7 +264,7 @@ const SUBTRACT_5_ACTION = { type: 'SUBTRACT', amount: 5 };
 const SUBTRACT_10_ACTION = { type: 'SUBTRACT', amount: 10 };
 ```
 
-Hm. That's a lot of duplicated boilerplate. What if we wrote some little helper functions to build those actions for us?
+We could make this a little bit nicer by creating some helper functions that will generate these actions for us without requiring us to write out "{ type: 'Add', amount: X }" every time:
 
 ```js
 function createAddAction(amount) {
@@ -296,11 +296,6 @@ Remember, the reducer is a function which is supplied with the current state of 
 
   const initialState = { count: 0 };
 
-  /*
-  when our reducer runs for the very first time,
-  `currentState` will be undefined.
-  in that scenario, we'll use a pre-determined `initialState`
-  */
   function reduce(currentState = initialState, action) {
     switch (action.type) {
       case 'ADD':
@@ -326,7 +321,7 @@ This should be pretty straight-forward, but there are a few parts that might not
 
 #### Initial State
 
-The trick here is that when Redux first initializes, it is going to call our reducer function with `undefined` as the `currentState` and a special "init" action (e.g. `{ type: '__REDUX_INIT__' }`) in order to figure out the first state of the app. Since `currentState` is `undefined`, our reducer function will use the default parameter, `initialState`, as the value for `currentState`. Next, the reducer will run through our switch statement to see how to handle the special "init" action from Redux. Since our switch statement doesn't describe any way of handling the special "init" action, we'll fall through to the default case and return the `initialState`.
+The trick here is that when Redux first initializes, it is going to call our reducer function with `undefined` as the `currentState` and a special "init" action (e.g. `{ type: '__REDUX_INIT__' }`) in order to figure out the first state of the app. Since `currentState` is `undefined`, our reducer function will use the parameter's default value (`initialState`). Next, the reducer will run through our switch statement to see how to handle the special "init" action from Redux. Since our switch statement doesn't describe any way of handling the special "init" action, we'll fall through to the default case and return state untouched.
 
 This is kind of a convoluted little dance to get the initial state, but it's important so that our app starts off with the proper initial values.
 
@@ -370,9 +365,9 @@ The second reason that this reducer is broken is related to how Redux detects ch
 
 To recap: mutating the `currentState` in the reducer can cause nasty bugs, and returning `currentState` from the reducer will signal to Redux that nothing changed.
 
-> Understanding this behavior is _crucial_ for anyone using Redux; it's a little bit tricky at first, but it's also what allows Redux to be so incredibly fast.
+Understanding this behavior is _crucial_ for anyone using Redux; it can be a little bit tricky at first, but it's also what allows Redux to be so incredibly fast.
 
-In order to grasp what's going on, we need to think about how Redux actually detects a change in our app's state. It works like this:
+In order to understand why this constraint exists, we need to think about how Redux actually detects a change in our app's state. At a high level, it works as you might expect:
 
 1. Redux takes note of the `currentState`
 2. Redux calls our reducer function in order to determine the `nextState`
@@ -380,7 +375,7 @@ In order to grasp what's going on, we need to think about how Redux actually det
 
 Step 3 is where we'll focus.
 
-Redux technically has a few options for how it could compare the old state to the new state, but keep in mind that `nextState` and `currentState` might be huge, complex objects which represent the entire state of a highly-interactive app. If Redux took the time to traverse the entire `currentState` and `nextState` objects in order to determine if _every single key_ and _every single value_ is exactly the same between both of them, it would take much too long in complicated apps. Instead, it uses a _referential comparison_ (e.g. `nextState !== currentState`) to see if the two values _refer_ to the same object or to different ones.
+Redux technically has a few options for how it could compare the old state to the new state, but keep in mind that `nextState` and `currentState` might be huge, complex objects which represent the entire state of a highly-interactive app. If Redux took the time to traverse the entire `currentState` and `nextState` objects in order to determine if _every single key_ and _every single value_ is exactly the same between both of them, it would take much too long in complicated apps. Instead, it uses a _referential comparison_ (e.g. `nextState === currentState`) to see if the two values _refer_ to the same object or to different ones.
 
 That's why returning `currentState` from the reducer signals to Redux that nothing changed. Redux will be comparing `currentState === currentState` in step 3.
 
@@ -395,12 +390,12 @@ switch (action.type) {
   case 'ADD':
     // returns a new object
     return {
-      count: currentState.count + action.amount, // overwrite count
+      count: currentState.count + action.amount,
     };
   case 'SUBTRACT':
     // returns a new object
     return {
-      count: currentState.count - action.amount, // overwrite count
+      count: currentState.count - action.amount,
     };
   default:
     // return the old currentState as-is, there's no change
@@ -410,7 +405,7 @@ switch (action.type) {
 
 The takeaway:
 
-> Always return a new object from your reducer in order to hint to Redux that the state has changed
+> Always return a new object from your reducer in order to inform Redux that the state has changed
 
 #### Copying Values from `currentState`
 
@@ -453,7 +448,7 @@ function reduce(currentState = initialState, action) {
 }
 ```
 
-Notice that when we update the count, we need to make sure that we copy over the current theme unchanged. Likewise, when we update the theme, we need to make sure that we copy over the current count unchanged. That's because Redux expects us to return the _entire_ `nextState`, not just a little piece of it. If we forget to copy-over some state, Redux will assume that we intended to delete that data and will happily chug along.
+Notice that when we update the count, we need to make sure that we copy over the current theme unchanged. Likewise, when we update the theme, we need to make sure that we copy over the current count unchanged. That's because Redux expects us to return the _entire_ `nextState`, not just a little piece of it. If we forget to copy over some state, Redux will assume that we intended to delete that data and will happily do that for us.
 
 Rather than worrying about manually copying over each and every value from `currentState`, let's make use of our JavaScript skills and copy _all of the values_ from the `currentState` into the `nextState` and then just overwrite the parts that we want to change. Here's what that might look like:
 
@@ -571,7 +566,9 @@ We'll use the `subscribe` function that's exposed by the `store` in order to lis
 </script>
 ```
 
-And we're done! Every time the store's state changes, we'll be notified and we'll run our little `render` function in order to update the UI. You can check out the full annotated code in action in [this CodeSandbox](https://codesandbox.io/s/redux-minus-react-edmfu).
+And we're done! Every time the store's state changes, we'll be notified and we'll run our little `render` function in order to update the UI.
+
+[CodeSandbox](local-codesandbox://react-minus-redux?file=/index.html&editorsize=75)
 
 ## Wrap Up
 

@@ -35,6 +35,21 @@ module.exports = {
             },
           },
           {
+            resolve: 'gatsby-remark-embedded-codesandbox',
+            options: {
+              directory: `${__dirname}/content/codesandbox`,
+              protocol: 'local-codesandbox://',
+              getIframe: url =>
+                `<iframe src="${url}" width="2" height="1" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>`,
+              // Customise CodeSandbox embedding options:
+              // https://codesandbox.io/docs/embedding#embed-options
+              embedOptions: {
+                view: 'split',
+                hidenavigation: 1,
+              },
+            },
+          },
+          {
             resolve: `gatsby-remark-responsive-iframe`,
             options: {
               wrapperStyle: `margin-bottom: 1.0725rem`,
